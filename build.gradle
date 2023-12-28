@@ -1,6 +1,6 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.2.1'
+	id 'org.springframework.boot' version '3.2.0'
 	id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -22,19 +22,73 @@ repositories {
 }
 
 dependencies {
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	/**
+	 * 테스트에서도 롬복을 사용하고 싶을 때
+	 */
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	/**
+	 * querydsl 사용 / jakarta 추가
+	 */
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+
+	/**
+	 * 메이븐 사용시 별도로 추가하지 않아도 됨
+ 	 */
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+
+	/**
+	 * 오라클 드라이버, 인코딩을 위해 추가
+	 */
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11:23.3.0.23.09'
+	implementation 'com.oracle.database.nls:orai18n:23.3.0.23.09'
+
+	/**
+	 * 테스트용 db : h2
+	 */
+	testRuntimeOnly 'com.h2database:h2'
+
+	/**
+	 * 타임리프 레이아웃, 타임리프
+	 */
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// q형태의 클래스가 만들어 질때
+
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+	main.java.srcDirs += [ querydslDir ]
+}
+
+tasks.withType(JavaCompile) {
+	options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+}
+
+clean.doLast {
+	file(querydslDir).deleteDir()
 }
