@@ -1,0 +1,61 @@
+server:
+  port: 3000
+
+spring:
+  profiles:
+    active: dev
+
+  # 데이터베이스 설정
+  datasource:
+    driverClassName: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    username: PROJECT
+    password: _aA123456
+
+  # JPA 설정
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        # 방언설정
+        dialect: org.hibernate.dialect.OracleDialect
+    hibernate:
+      ddlAuto: create # 수정과 보완이 많이 일어나니까 초기에 많이 사용
+
+  # 타임리프 설정
+  thymeleaf:
+    cache: false # 개발 시엔 캐시설정 false
+    prefix: file:src/main/resources/templates/
+
+  # 라이브 리로드 설정
+  devtools:
+    livereload:
+      enabled: true
+
+  # 정적 자원 설정(CSS, JS, 이미지)
+  web:
+    resources:
+      staticLocations: file:src/main/resources/static/
+
+  # 파일 업로드 용량 설정 : 파일 쪽 경로는 다른 서버에 올리기도 함...(서버 다운을 방지하기 위해서)
+  servlet:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 60MB
+
+# 로거 설정
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+
+# 파일 업로드 경로 설정
+file:
+  upload:
+    url: /uploads/
+    path: c:/uploads/
