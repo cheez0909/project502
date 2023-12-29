@@ -6,6 +6,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -35,5 +37,14 @@ public class MvcConfig implements WebMvcConfigurer {
         System.out.println(registry);
         registry.addResourceHandler(fileProperties.getUrl()+"**")
                 .addResourceLocations("file:///"+fileProperties.getPath());
+    }
+
+    /**
+     * form 양식에서 hidden값으로 name에 _method를 넣고
+     * value값에 PATCH, PUT, DELETE값을 넣으면 사용할 수 있음
+     */
+    @Bean
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
+        return new HiddenHttpMethodFilter();
     }
 }
