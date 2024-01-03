@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.net.http.HttpRequest;
+import java.util.ResourceBundle;
 
 @Component // 스프링 관리 객체
 @RequiredArgsConstructor
@@ -21,6 +21,19 @@ public class Utils {
      */
     private final HttpServletRequest request;
     private final HttpSession session;
+
+    /**
+     * 스태틱 구간에 초기화를 시킴
+     */
+    private static final ResourceBundle commonsBundle;
+    private static final ResourceBundle validationsBundle;
+    private static final ResourceBundle errorsBundle;
+
+    static {
+        commonsBundle = ResourceBundle.getBundle("messages.commons");
+        validationsBundle = ResourceBundle.getBundle("messages.validations");
+        errorsBundle = ResourceBundle.getBundle("messages.errors");
+    }
 
     /**
      * 모바일과 pc 구분하기
@@ -39,9 +52,7 @@ public class Utils {
          * 요청헤더에서 user-Agent 정보 불러오기
          */
         String ua = request.getHeader("User-Agent");
-
         String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*";
-
         return ua.matches(pattern);
     }
 
@@ -50,7 +61,36 @@ public class Utils {
      */
     public String tpl(String path) {
         String prefix = isMobile() ? "mobile/" : "front/";
-
         return prefix + path;
+    }
+
+    /**
+     *
+     * @param code : 키값
+     * @param type : 메세지 타입 commons, errors, validations
+     * @return
+     * 타입에 따라서 다른 번들을 가져옴
+     */
+    public static String getMessage(String code, String type){
+        type = StringUtils.hasText(type) ? type : "validations";
+
+        ResourceBundle bundle = null;
+
+        if(type.equals("commons")){
+            bundle =commonsBundle;
+        } else if(type.equals("errors")){
+            bundle=errorsBundle;
+        } else {
+            bundle=validationsBundle;
+        }
+        return bundle.getString(code);
+    }
+
+    /**
+     * validationsBundle이 가장 많이 사용되기 때문에
+     * 초기화 시킴
+     */
+    public static String getMessage(String code){
+        return getMessage(code, null);
     }
 }

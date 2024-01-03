@@ -1,19 +1,21 @@
-package org.choongang.restcontrollers;
+package org.choongang.commons;
 
 import org.choongang.commons.exceptions.CommonException;
 import org.choongang.commons.rests.JSONData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice("org.choongang.restcontrollers")
-public class RestCommonController {
+/**
+ * mvc -> ddd로 설계 변경
+ * RestCommonController
+ */
+public interface ExceptionRestProcessor {
 
-    // 위 패키지 경로 내의 에러는 이쪽으로 수집됨
+
     @ExceptionHandler(Exception.class)
     // 응답코드와 함께 상태를 담는 클래스
-    public ResponseEntity<JSONData<Object>> errorHandler(Exception e){
+    default ResponseEntity<JSONData<Object>> errorHandler(Exception e){
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR; // 500
 
