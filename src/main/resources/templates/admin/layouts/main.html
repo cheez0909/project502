@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
 
+    <!--아이콘 사이트-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <!--공통 스타일-->
     <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css}">
     <!--동적 처리 : common을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
@@ -35,7 +37,18 @@
 <body>
     <!--헤더내의 common 내용으로 교체가 된다.-->
     <header th:replace="~{admin/outlines/header::common}"></header>
-    <main layout:fragment="content"></main>
+
+    <main>
+        <aside th:replace="~{admin/outlines/_side::menus}"></aside>
+        <section>
+            <nav th:replace="~{admin/outlines/_submenu::submenus}">
+            <section layout:fragment="content"></section>
+            </nav>
+        </section>
+    </main>
+
+    <!-- 관리자 페이지는 푸터 없어도 됨!
     <header th:replace="~{admin/outlines/footer::common}"></header>
+    -->
 </body>
 </html>
