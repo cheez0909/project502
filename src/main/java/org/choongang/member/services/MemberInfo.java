@@ -21,7 +21,6 @@ public class MemberInfo implements UserDetails {
     private String email;
     private String userId;
     private String password;
-
     // 추가적인 정보가 필요할 때
     private Member member;
 

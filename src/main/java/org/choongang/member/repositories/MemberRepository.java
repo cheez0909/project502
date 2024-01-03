@@ -2,6 +2,7 @@ package org.choongang.member.repositories;
 
 import org.choongang.member.entities.Member;
 import org.choongang.member.entities.QMember;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
@@ -12,7 +13,9 @@ public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslP
     /**
      * 반환값이 optional -> 회원정보가 없을 땐 없다고 하려고..
      */
+    @EntityGraph(attributePaths = "authorities")
     Optional<Member> findByEmail(String email);
+    @EntityGraph(attributePaths = "authorities")
     Optional<Member> findByUserId(String userId);
 
     /**
