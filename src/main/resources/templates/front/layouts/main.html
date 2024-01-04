@@ -3,31 +3,35 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
+    <title>
+        <th:block th:if="${pageTitle!=null}" th:text="${pageTitle + ' - '}"></th:block>
+        <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}">
+        </th:block>
+    </title>
 
     <!--공통 스타일-->
-    <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <!--동적 처리 : common을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
-    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="@{/common/css/{file}.css(file=${cssFile})}">
+    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="@{/common/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
     <!--관리자용 스타일-->
-    <link rel="stylesheet" type="text/css" th:href="@{/front/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/front/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <!--동적 처리 : admin을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
-    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}" th:href="@{/front/css/{file}.css(file=${cssFile})}">
+    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}" th:href="@{/front/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
 
 
     <th:block layout:fragment="addCss"></th:block>
 
 
     <!--공통 스크립트-->
-    <script th:src="@{/common/js/common.js}"></script>
+    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addCommonScript}"
-            th:src="@{/common/js/{file}.js(file=${jsFile})}"></script>
+            th:src="@{/common/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
     <!--관리자용 스크립트-->
-    <script th:src="@{/front/js/common.js}"></script>
+    <script th:src="@{/front/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addScript}"
-            th:src="@{/front/js/{file}.js(file=${jsFile})}"></script>
+            th:src="@{/front/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
 
 
     <th:block layout:fragment="addScript"></th:block>

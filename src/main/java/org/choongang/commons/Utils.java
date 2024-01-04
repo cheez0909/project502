@@ -91,6 +91,18 @@ public class Utils {
      * 초기화 시킴
      */
     public static String getMessage(String code){
+
         return getMessage(code, null);
+    }
+
+    /**
+     * \n 또는 \r\n -> <br>
+     * @param str
+     * @return
+     */
+    public String nl2br(String str){
+        str = str.replaceAll("\\n", "<br>")
+                .replaceAll("\\r", "");
+        return str;
     }
 }

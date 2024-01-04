@@ -57,7 +57,7 @@ public class SecurityConfig {
         // authorizeHttpRequests 특정 권한이 있을때 접근가능한 페이지를 통제하는 것
         http.authorizeHttpRequests(c->{
             c.requestMatchers("/mypage/**").authenticated() // 인증된 사용자 즉, 회원 전용
-                    //.requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "MANAGER") // 권한 있는 사람만 접근가능
+                    // .requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "MANAGER") // 권한 있는 사람만 접근가능
                     .anyRequest().permitAll(); // 그외엔 모두 접근가능
         });
         // 상세하게 페이지 설정 가능
