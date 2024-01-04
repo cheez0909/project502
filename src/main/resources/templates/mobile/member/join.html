@@ -35,7 +35,7 @@
 
         <!--약관은 관리자 페이지에서 추가 자리만 만들어주자!-->
         <div th:text="#{회원가입_약관}"></div>
-        <div class="terms">약관...</div>
+        <div class="terms" th:if="${siteConfig.joinTerms != null}" th:utext="${@utils.nl2br(siteConfig.joinTerms)}"}>약관...</div>
         <div class="terms_agree">
             <input type="checkbox" name="agree" value="true" id="agree" th:field="*{agree}">
             <label for="agree" th:text="#{회원가입_약관에_동의합니다.}"></label>

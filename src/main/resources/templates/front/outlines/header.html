@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <!--공통 헤더-->
     <header th:fragment="common">
         <!--미로그인 상태-->
@@ -11,6 +10,7 @@
 
         <!--로그인 상태-->
         <th:block sec:authorize="isAuthenticated()">
+            <span th:text="${#messages.msg('LOGIN_MSG', session.member.name, session.member.userId)}"></span>
             <a th:href="@{/mypage}" th:text="#{마이페이지}"></a>
             <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
             <a sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')" th:href="@{/admin}" th:text="#{사이트_관리}"></a>

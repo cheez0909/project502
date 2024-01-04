@@ -3,31 +3,41 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title th:if="${pageTitle != null}" th:text="${pageTitle}"></title>
+    <meta th:if="${siteConfig.siteDescription != null}" name="description" th:content="${siteConfig.siteDescription}">
+    <meta th:if="${siteConfig.siteKeywords != null}" name="sitekeywords" th:content="${siteConfig.siteKeywords}">
+    <meta th:if="${siteConfig.cssJsVersion != null}" name="cssjsversion" th:content="${siteConfig.cssJsVersion}">
+    <meta th:if="${siteConfig.joinTerms != null}" name="jointerms" th:content="${siteConfig.joinTerms}">
+    <title>
+        <th:block th:if="${pageTitle!=null}" th:text="${pageTitle + ' - '}"></th:block>
+        <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}">
+        </th:block>
+    </title>
 
+    <!--아이콘 사이트-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <!--공통 스타일-->
-    <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <!--동적 처리 : common을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
-    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="@{/common/css/{file}.css(file=${cssFile})}">
+    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCommonCss}" th:href="@{/common/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
     <!--관리자용 스타일-->
-    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <!--동적 처리 : admin을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
-    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}" th:href="@{/admin/css/{file}.css(file=${cssFile})}">
+    <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}" th:href="@{/admin/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
 
 
     <th:block layout:fragment="addCss"></th:block>
 
 
     <!--공통 스크립트-->
-    <script th:src="@{/common/js/common.js}"></script>
+    <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addCommonScript}"
-            th:src="@{/common/js/{file}.js(file=${jsFile})}"></script>
+            th:src="@{/common/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
     <!--관리자용 스크립트-->
-    <script th:src="@{/admin/js/common.js}"></script>
+    <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addScript}"
-            th:src="@{/admin/js/{file}.js(file=${jsFile})}"></script>
+            th:src="@{/admin/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
 
 
     <th:block layout:fragment="addScript"></th:block>
@@ -35,7 +45,17 @@
 <body>
     <!--헤더내의 common 내용으로 교체가 된다.-->
     <header th:replace="~{admin/outlines/header::common}"></header>
-    <main layout:fragment="content"></main>
+
+    <main>
+        <aside th:replace="~{admin/outlines/_side::menus}"></aside>
+        <section>
+            <nav th:replace="~{admin/outlines/_submenu::submenus}"></nav>
+            <section layout:fragment="content"></section>
+        </section>
+    </main>
+
+    <!-- 관리자 페이지는 푸터 없어도 됨!
     <header th:replace="~{admin/outlines/footer::common}"></header>
+    -->
 </body>
 </html>

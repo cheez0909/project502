@@ -6,6 +6,8 @@ import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.Utils;
 import org.choongang.member.services.JoinService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,13 +23,15 @@ public class MemberController implements ExceptionProcessor {
     private final JoinService joinService;
 
     @GetMapping("/join")
-    public String join(@ModelAttribute RequestJoin requestJoin){
-
+    public String join(@ModelAttribute RequestJoin requestJoin, Model model){
+        commonProcess("join", model);
+        // model.addAttribute("pageTitle", "회원가입");
         return utils.tpl("member/join");
     }
 
     @PostMapping("/join")
-    public String joinPs(@Valid RequestJoin form, Errors errors){
+    public String joinPs(@Valid RequestJoin form, Errors errors, Model model){
+        commonProcess("join", model);
         joinService.process(form, errors);
         if(errors.hasErrors()){
             return utils.tpl("member/join");
@@ -35,8 +39,23 @@ public class MemberController implements ExceptionProcessor {
         return "redirect:/member/login";
     }
     @GetMapping("/login")
-    public String login(){
+    public String login(Model model){
+        commonProcess("login", model);
         return utils.tpl("member/login");
+    }
+
+    /**
+     * pageTitle 공통 처리 하기!!
+     * @param mode
+     * @param model
+     */
+    private void commonProcess(String mode, Model model){
+        mode = StringUtils.hasText(mode) ? mode : "join";
+        String pageTitle = Utils.getMessage("회원가입", "commons");
+        if(mode.equals("login")){
+            pageTitle = Utils.getMessage("로그인", "commons");
+        }
+        model.addAttribute("pageTitle", pageTitle);
     }
 
     /**
