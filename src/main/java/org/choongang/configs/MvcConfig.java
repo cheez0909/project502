@@ -39,6 +39,12 @@ public class MvcConfig implements WebMvcConfigurer {
         System.out.println(registry);
         registry.addResourceHandler(fileProperties.getUrl()+"**")
                 .addResourceLocations("file:///"+fileProperties.getPath());
+
+        /**
+         * 스타일이 적용받지 못하므로 정적경로를 추가!
+         */
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
     }
 
     /**

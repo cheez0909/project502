@@ -3,13 +3,20 @@ package org.choongang.commons.interceptors;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.controllers.BasicConfig;
+import org.choongang.admin.config.service.ConfigInfoService;
 import org.choongang.member.MemberUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Arrays;
+
 @Component
+@RequiredArgsConstructor
 public class CommonInterceptor implements HandlerInterceptor {
+    private final ConfigInfoService infoService;
     /**
      * 공통적인 처리만 할 것? (240102 / 5교시 초반)
      */
@@ -17,6 +24,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         checkDevice(request);
         clearLoginData(request);
+        loadSiteConfig(request); // 추가
         return true;
     }
 
@@ -45,5 +53,20 @@ public class CommonInterceptor implements HandlerInterceptor {
             HttpSession session = request.getSession();
             MemberUtil.clearLoginData(session);
         }
+    }
+
+    private void loadSiteConfig(HttpServletRequest request){
+        String[] excludes = {".js", ".css", ".png", ".jpg", ".jpeg", "gif", ".pdf", ".xls", ".xlxs", ".ppt"};
+        String URL = request.getRequestURI().toLowerCase(); // 대소문자 구분을 위해 소문자로 변경
+
+        // 하나라도 매칭이 되면 안됨
+        boolean isIncluded = Arrays.stream(excludes).anyMatch(s -> URL.contains(s));
+        // 매칭되면 중지
+        if(isIncluded){
+            return;
+        }
+        BasicConfig config = infoService.get("basic", BasicConfig.class)
+                .orElseGet(BasicConfig::new);
+        request.setAttribute("siteConfig", config);
     }
 }
