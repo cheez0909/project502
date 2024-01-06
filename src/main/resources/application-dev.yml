@@ -5,9 +5,9 @@ spring:
   # 데이터베이스 설정
   datasource:
     driverClassName: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:orcl
+    url: jdbc:oracle:thin:@localhost:1521:xe
     username: PROJECT
-    password: _aA123456
+    password: aA123456
 
   # JPA 설정
   jpa:
@@ -55,4 +55,4 @@ logging:
 file:
   upload:
     url: /uploads/
-    path: c:/uploads/
+    path: /Users/da-eunlee/Desktop/uploads/

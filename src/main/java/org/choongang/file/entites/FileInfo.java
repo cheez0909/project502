@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.choongang.commons.entites.BaseMember;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -32,5 +33,24 @@ public class FileInfo extends BaseMember {
     @Column(length = 30)
     private String extension; // 확장자
 
-    private boolean done;
+    @Column(length = 65)
+    private String fileType; // 파일 타입 이미지인지...
+
+    /**
+     * DB아니고 자바에서만 관리하는(?) 필드
+     * 영속성 컨텍스트에 저장하지 않도록 지정하는 데 사용
+     */
+    @Transient
+    private String filePath; // 서버에 실제 올라간 경로
+
+    @Transient
+    private String fileUrl; // 브라우저 주소창에 입력해서 접근할 수 있는 경로
+
+    @Transient
+    private List<String> thumbsPath; // 썸네일 이미지 경로 : 삭제할 때 필요함(서버에)
+
+    @Transient
+    private List<String> thumbsUrl; // 브라우저 주소창에 입력해서 접근할 수 있는 경로
+
+    private boolean done; // 파일 저장 성공 여부
 }

@@ -3,9 +3,13 @@ package org.choongang.commons;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.choongang.admin.config.controllers.BasicConfig;
+import org.choongang.file.service.FileInfoService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component // 스프링 관리 객체
@@ -21,6 +25,7 @@ public class Utils {
      */
     private final HttpServletRequest request;
     private final HttpSession session;
+    private final FileInfoService fileInfoService;
 
     /**
      * 스태틱 구간에 초기화를 시킴
@@ -104,5 +109,50 @@ public class Utils {
         str = str.replaceAll("\\n", "<br>")
                 .replaceAll("\\r", "");
         return str;
+    }
+
+    /**
+     * 썸네일 사이즈 가져 오도록 추가
+     */
+    public List<int[]> getThumbSize(){
+        BasicConfig basicConfig = (BasicConfig) request.getAttribute("siteConfig");
+        String thumbSize = basicConfig.getThumbSize(); // \r\n
+        String[] thumsSize = basicConfig.getThumbSize().split("\\n"); // \r\n -> 줄개행문자 \n으로 자르고 \r을 삭제
+        List<int[]> data = Arrays.stream(thumsSize)
+                .filter(StringUtils::hasText) // 공백이 아닐때
+                .map(s -> s.replaceAll("\\s+", "")) // 한개 이상의 공백
+                .map(this::toConvert).toList();
+        return data;
+    }
+
+    private int[] toConvert(String size) {
+        size = size.trim();
+
+        int[] data = Arrays.stream(size.replaceAll("\\r", "")
+                .toUpperCase().split("X")).mapToInt(Integer::parseInt).toArray();
+        return data;
+    }
+
+    /**
+     * 썸네일을 이미지 태그로 변환해서 타임리프에서 utext 속성으로 사용할 수 있다!
+     * @param seq : id
+     * @param width : 가로
+     * @param height : 세로
+     * @param className : 나중에 css를 사용하기 위해 클래스 네임이 필요할 수 있으니 넣어준 것!
+     * @return
+     */
+    public String printThumb(long seq, int width, int height, String className){
+        String[] data = fileInfoService.getThumb(seq, width, height);
+        if(data != null){
+            // 클래스 네임이 있을땐 클래스 네임 넣어줌
+            String cls = StringUtils.hasText(className) ? " class='"+className+"'" : "";
+            String image = String.format("<img src='%s'%s>", data[1], cls);
+            return image;
+        }
+        return "";
+    }
+
+    public String printThumb(long seq, int width, int height){
+        return printThumb(seq, width, height, null);
     }
 }
