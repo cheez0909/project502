@@ -20,7 +20,7 @@ public class ThumbnailTest {
 
     @Test
     void getThumbTest1(){
-        String[] data = fileInfoService.getThumb(3L, 150,150);
+        String[] data = fileInfoService.getThumb(52L, 250,250);
         System.out.println(Arrays.toString(data));
     }
 

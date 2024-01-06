@@ -133,6 +133,14 @@ public class Utils {
         return data;
     }
 
+    /**
+     * 썸네일을 이미지 태그로 변환해서 타임리프에서 utext 속성으로 사용할 수 있다!
+     * @param seq : id
+     * @param width : 가로
+     * @param height : 세로
+     * @param className : 나중에 css를 사용하기 위해 클래스 네임이 필요할 수 있으니 넣어준 것!
+     * @return
+     */
     public String printThumb(long seq, int width, int height, String className){
         String[] data = fileInfoService.getThumb(seq, width, height);
         if(data != null){

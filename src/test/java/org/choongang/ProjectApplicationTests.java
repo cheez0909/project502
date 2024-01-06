@@ -28,7 +28,6 @@ class ProjectApplicationTests {
 		authorities.setAuthority(Authority.ADMIN);
 
 		authoritiesRepository.saveAndFlush(authorities);
-
 	}
 
 }

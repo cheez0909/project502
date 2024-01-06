@@ -143,10 +143,10 @@ public class FileInfoService {
         FileInfo fileInfo = get(seq);
 
         String fileType = fileInfo.getFileType(); // 파일이 이미지인지 체크
-        String fileName = seq + fileInfo.getFileName();
         if (fileType.indexOf("image/") == -1) {
             return null;
         }
+        String fileName = seq + fileInfo.getFileName();
         String thumbDir = getThumbDir(seq);
         File _thumbDir = new File(thumbDir);
         // 썸네일 이미지가 없는 경우
@@ -155,7 +155,7 @@ public class FileInfoService {
             _thumbDir.mkdirs();
         }
 
-        String thumbPath = String.format("%s%d_%d_%s", thumbDir, width, height, fileName);
+        String thumbPath = String.format("%s/%d_%d_%s", thumbDir, width, height, fileName);
         File _thumbPath = new File(thumbPath);
         // 썸네일 경로에 없으면
         if (!_thumbPath.exists()) {
@@ -169,14 +169,14 @@ public class FileInfoService {
         }
 
         String thumbUrl = String.format("%s/%d_%d_%s", getThumbUrl(seq), width, height, fileName);
-        return  new String[] {thumbPath, thumbUrl};
+        return new String[] {thumbPath, thumbUrl};
     }
     public String getThumbDir(long seq){
-        String thumbDirCommon = "thumbs/" + (seq%10L) + "/" + seq;
+        String thumbDirCommon = "thumbs/" + (seq % 10L) + "/" + seq;
         return fileProperties.getPath() + thumbDirCommon;
     }
     public String getThumbUrl(long seq){
-        String thumbDirCommon = "thumbs/" + (seq%10L) + "/" + seq;
+        String thumbDirCommon = "thumbs/" + (seq % 10L) + "/" + seq;
         return fileProperties.getUrl() + thumbDirCommon;
     }
 }

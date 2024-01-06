@@ -47,10 +47,15 @@ public class FileUploadService {
         for(MultipartFile file : files){
 
             String fileName = file.getOriginalFilename(); // 오리지널 파일명
-            String contentType = file.getContentType(); // 파일 타입
             String extension = fileName.substring(fileName.lastIndexOf(".")); // 확장자 명
             String fileType = file.getContentType(); // 파일 종류 : 이미지, 문서 등
-
+            /*  이미지만 올릴 수 있도록 S */
+            String contentType = file.getContentType(); // 파일 타입
+             /* 이미지만 올려야되는데 이미지가 아닌 경우 업로드 배제 */
+            if(imageOnly && contentType.indexOf("image/")==-1){
+                continue;
+            }
+            /*  이미지만 올릴 수 있도록 E */
             FileInfo fileInfo = FileInfo.builder()
                     .gid(gid)
                     .location(location)

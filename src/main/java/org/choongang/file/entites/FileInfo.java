@@ -37,7 +37,7 @@ public class FileInfo extends BaseMember {
     private String fileType; // 파일 타입 이미지인지...
 
     /**
-     * DB아니고 자바에서만 관리하는 (?)필드
+     * DB아니고 자바에서만 관리하는(?) 필드
      * 영속성 컨텍스트에 저장하지 않도록 지정하는 데 사용
      */
     @Transient

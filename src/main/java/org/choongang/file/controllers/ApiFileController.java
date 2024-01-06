@@ -23,7 +23,7 @@ public class ApiFileController implements ExceptionRestProcessor {
      * @param files
      * @param gid
      * @param location
-     * @param imageOnly -> 이미지만 올릴 수 있도록 통제
+     * @param imageOnly -> 이미지만 올릴 수 있도록 통제 (어떤 경우는 엑셀파일만 올릴 수 있도록 할 수 있음)
      * @return
      */
     @PostMapping
@@ -41,6 +41,9 @@ public class ApiFileController implements ExceptionRestProcessor {
         return new JSONData<>(uploadedfiles);
     }
 
+    /** 자바 스크립트에서 사용
+    @DeleteMapping
+     */
     @GetMapping("/{seq}")
     public void delete(@PathVariable("seq") Long seq){
         deleteService.delete(seq);
