@@ -7,31 +7,28 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * 비밀번호 찾기 추가 검증 처리
- *
- */
 @Component
 @RequiredArgsConstructor
-public class FindPwValidator implements Validator {
+public class FindIdValidator implements Validator {
 
     private final MemberRepository memberRepository;
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz.isAssignableFrom(RequestFindPw.class);
+        return clazz.isAssignableFrom(RequestFindId.class);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
 
-        // 아이디 + 이메일 조합으로 조회 되는지 체크
-        RequestFindPw form = (RequestFindPw) target;
+        // 이메일 + 회원명 조합으로 조회 되는지 체크
+        RequestFindId form = (RequestFindId) target;
         String email = form.email();
-        String userId = form.userId();
+        String name = form.name();
 
-        if (StringUtils.hasText(email) && StringUtils.hasText(userId) && !memberRepository.existsByEmailAndName(email, userId)) {
+        if (StringUtils.hasText(email) && StringUtils.hasText(name) && !memberRepository.existsByEmailAndName(email, name)) {
             errors.reject("NotFound.member");
         }
     }
 }
+

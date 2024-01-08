@@ -11,6 +11,32 @@
         <div class="error global" th:each="err : ${#fields.globalErrors()}"
              th:text="${err}"></div>
 
+
+
+            <div class="circle"></div>
+            <dt th:text="#{프로필_이미지}"></dt>
+            <dd>
+                <button type="button" class="upload_files" th:text="#{이미지_업로드}"></button>
+            </dd>
+
+
+
+        <input name="userId" th:field="*{userId}" th:placeholder="#{아이디}" type="text">
+        <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
+
+
+        <input name="password" th:field="*{password}" th:placeholder="#{비밀번호}" type="password">
+        <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+
+
+        <input name="confirmPassword" th:field="*{confirmPassword}" th:placeholder="#{비밀번호_확인}" type="password">
+        <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
+
+
+        <input name="name" th:field="*{name}" th:placeholder="#{회원명}" type="text">
+        <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+
+
         <div>
             <input name="email" th:field="*{email}" th:placeholder="#{이메일}"
                    th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}"
@@ -33,20 +59,20 @@
         <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
 
 
-        <input name="userId" th:field="*{userId}" th:placeholder="#{아이디}" type="text">
-        <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
+
+            <dt th:text="#{보조지표}"></dt>
+                <button type="button" onclick="showOptionSelection()">선택</button>
+                <div id="optionSelection">
+                    <label>
+                        <input type="checkbox" name="optionChoice" value="value1"> 지표1
+                    </label>
+                    <label>
+                        <input type="checkbox" name="optionChoice" value="value2"> 지표2
+                    </label>
+                    <button type="button" onclick="applySelectedOptions()">적용</button>
+                </div>
 
 
-        <input name="password" th:field="*{password}" th:placeholder="#{비밀번호}" type="password">
-        <div class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
-
-
-        <input name="confirmPassword" th:field="*{confirmPassword}" th:placeholder="#{비밀번호_확인}" type="password">
-        <div class="error" th:each="err : ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
-
-
-        <input name="name" th:field="*{name}" th:placeholder="#{회원명}" type="text">
-        <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
 
 
         <!--약관은 관리자 페이지에서 추가 자리만 만들어주자!-->

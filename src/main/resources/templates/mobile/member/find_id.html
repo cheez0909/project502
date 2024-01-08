@@ -3,18 +3,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{mobile/layouts/main}">
 <main layout:fragment="content">
-    <h1 th:text="#{비밀번호_찾기}"></h1>
+    <h1 th:text="#{아이디_찾기}"></h1>
 
-    <form name="frmFindPw" method="post" th:action="@{/member/find_pw}" autocomplete="off" th:object="${requestFindPw}">
+    <form name="frmFindId" method="post" th:action="@{/member/find_id}" autocomplete="off" th:object="${requestFindId}">
 
-        <input type="text" name="userId" th:field="*{userId}" th:placeholder="#{아이디}">
-        <div class="error" th:each="err : ${#fields.errors('userId')}" th:text="${err}"></div>
-
+        <input type="text" name="name" th:field="*{name}" th:placeholder="#{회원명}">
+        <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
 
         <input type="text" name="email" th:field="*{email}" th:placeholder="#{이메일}">
         <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
 
-        <button type="submit" th:text="#{비밀번호_찾기}"></button>
+
+        <button type="submit" th:text="#{아이디_찾기}"></button>
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </form>
 </main>

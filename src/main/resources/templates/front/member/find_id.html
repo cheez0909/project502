@@ -1,0 +1,49 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+          layout:decorate="~{front/layouts/main}">
+    <main layout:fragment="content">
+        <h1 th:text="#{아이디_찾기}"></h1>
+
+        <form name="frmFindId" method="post" th:action="@{/member/find_id}" autocomplete="off" th:object="${requestFindId}">
+
+            <input type="text" name="name" th:field="*{name}" th:placeholder="#{회원명}">
+            <div class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}"></div>
+
+            <!--
+            <input type="text" name="email" th:field="*{email}" th:placeholder="#{이메일}">
+            <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+            -->
+
+            <dl>
+                <dt th:text="#{이메일}"></dt>
+                <dd>
+                    <div>
+                        <input name="email" th:field="*{email}" th:placeholder="#{이메일}"
+                               th:readonly="${session.EmailAuthVerified != null && session.EmailAuthVerified}"
+                               type="text">
+                        <button id="email_verify" th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}"
+                                th:text="#{인증코드전송}" type="button"></button>
+                    </div>
+
+                    <div class="auth_box">
+                        <th:block th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+                            <input type="text" id="auth_num" th:placeholder="#{인증코드_입력}">
+                            <span id="auth_count">03:00</span>
+                            <button type="button" id="email_confirm" th:text="#{확인}" disabled></button>
+                            <button type="button" id="email_re_verify" th:text="#{재전송}" disabled></button>
+                        </th:block>
+                        <th:block th:unless="${session.EmailAuthVerified == null || !session.EmailAuthVerified}">
+                            <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
+                        </th:block>
+                    </div>
+                    <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                </dd>
+            </dl>
+
+
+            <button type="submit" id="find_id_button" th:text="#{아이디_찾기}" disabled></button>
+            <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+        </form>
+    </main>
+    </html>
