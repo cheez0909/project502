@@ -3,6 +3,8 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <meta th:if="${siteConfig.siteDescription != null}" name="description" th:content="${siteConfig.siteDescription}">
     <meta th:if="${siteConfig.siteKeywords != null}" name="sitekeywords" th:content="${siteConfig.siteKeywords}">
     <meta th:if="${siteConfig.cssJsVersion != null}" name="cssjsversion" th:content="${siteConfig.cssJsVersion}">
@@ -32,12 +34,12 @@
     <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addCommonScript}"
-            th:src="@{/common/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
+            th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
     <!--관리자용 스크립트-->
     <script th:src="@{/admin/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addScript}"
-            th:src="@{/admin/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
+            th:src="@{/admin/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
 
 
     <th:block layout:fragment="addScript"></th:block>
