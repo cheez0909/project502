@@ -3,6 +3,8 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
     <!--모바일 쪽은 필수임!!!!!-->
     <meta name="viewport" content="width=device-width, user-scalable=yes,
     initial-scale=1, minimum-scale=0.5, maximum-scale=3.0">
@@ -29,12 +31,12 @@
     <script th:src="@{/common/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addCommonScript}"
-            th:src="@{/common/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
+            th:src="@{/common/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
     <!--관리자용 스크립트-->
     <script th:src="@{/mobile/js/common.js?v={v}(v=${siteConfig.cssJsVersion})}"></script>
     <!--동적 처리-->
     <script th:each="jsFile : ${addScript}"
-            th:src="@{/mobile/js/{file}.js?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}"></script>
+            th:src="@{/mobile/js/{file}.js?v={v}(file=${jsFile}, v=${siteConfig.cssJsVersion})}"></script>
 
 
     <th:block layout:fragment="addScript"></th:block>

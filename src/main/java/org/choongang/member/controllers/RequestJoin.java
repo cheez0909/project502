@@ -6,11 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.UUID;
+
 /**
  * 커맨드 객체는 보통 controller 패키지에 있음
  */
 @Data
 public class RequestJoin {
+
+    private String gid = UUID.randomUUID().toString();
 
     @NotBlank @Email
     private String email;
