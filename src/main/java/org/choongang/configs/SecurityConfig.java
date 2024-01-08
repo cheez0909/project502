@@ -1,8 +1,11 @@
 package org.choongang.configs;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.choongang.member.services.LoginFailureHandler;
 import org.choongang.member.services.LoginSuccessHandler;
+import org.choongang.member.services.MemberInfo;
+import org.choongang.member.services.MemberInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,7 +17,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final MemberInfoService memberInfoService;
 
     /**
      * 스프링 3.0 버전임 -> 메서드 체인
@@ -76,6 +82,16 @@ public class SecurityConfig {
             });
         });
         /** 인가 설정 E - 접근 통제 **/
+
+        /* 자동 로그인 설정 S */
+        http.rememberMe(c -> {
+            c.rememberMeParameter("autoLogin") // 자동 로그인으로 사용할 요청 파리미터 명, 기본값은 remember-me
+                    .tokenValiditySeconds(60 * 60 * 24 * 30) // 로그인을 유지할 기간(30일로 설정), 기본값은 14일
+                    .userDetailsService(memberInfoService) // 재로그인을 하기 위해서 인증을 위한 필요 UserDetailsService 구현 객체
+                    .authenticationSuccessHandler(new LoginSuccessHandler()); // 자동 로그인 성공시 처리 Handler
+
+        });
+        /* 자동 로그인 설정 E */
 
         return http.build();
     }
