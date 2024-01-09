@@ -38,3 +38,4 @@ out/
 
 # 개발환경분리
 # application-dev.*
+src/main/generated/
