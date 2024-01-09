@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.choongang.member.services.LoginFailureHandler;
 import org.choongang.member.services.LoginSuccessHandler;
-import org.choongang.member.services.MemberInfo;
 import org.choongang.member.services.MemberInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -83,6 +82,9 @@ public class SecurityConfig {
         });
         /** 인가 설정 E - 접근 통제 **/
 
+
+
+
         /* 자동 로그인 설정 S */
         http.rememberMe(c -> {
             c.rememberMeParameter("autoLogin") // 자동 로그인으로 사용할 요청 파리미터 명, 기본값은 remember-me
@@ -92,6 +94,10 @@ public class SecurityConfig {
 
         });
         /* 자동 로그인 설정 E */
+
+        /* 같은 서버일때는 허용 가능하게.. 아이프레임 */
+        http.headers(c -> c.frameOptions(f->f.sameOrigin()));
+        /* 같은 서버일때는 허용 가능하게.. 아이프레임 */
 
         return http.build();
     }

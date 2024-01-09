@@ -38,11 +38,15 @@ public class FileController implements ExceptionProcessor {
 
     @GetMapping("/delete/{seq}")
     public String delete(@PathVariable("seq") Long seq, Model model){
-
-        deleteService.delete(seq);
-        /* callbackFileDelete가 함수이면 실행하라는 의미 */
-        String script = String.format("if (typeof callbackFileDelete=='function') parent.callbackFileDelete(%d);", seq);
-        model.addAttribute("script", script);
+        try {
+            deleteService.delete(seq);
+            /* callbackFileDelete가 함수이면 실행하라는 의미 -> 삭제가 되면 이 함수가 실행함 */
+            String script = String.format("if (typeof parent.callbackFileDelete=='function') parent.callbackFileDelete(%d);", seq);
+            model.addAttribute("script", script);
+        } catch (CommonException e) {
+            e.printStackTrace();
+            throw new AlertBackException(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
         return "common/_execute_script";
     }
 

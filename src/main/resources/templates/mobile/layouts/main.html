@@ -13,7 +13,8 @@
         <th:block th:if="${siteConfig.siteTitle != null}" th:text="${siteConfig.siteTitle}">
         </th:block>
     </title>
-
+    <!--아이콘-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
     <!--공통 스타일-->
     <link rel="stylesheet" type="text/css" th:href="@{/common/css/style.css?v={v}(v=${siteConfig.cssJsVersion})}">
     <!--동적 처리 : common을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
@@ -46,5 +47,6 @@
     <header th:replace="~{mobile/outlines/header::common}"></header>
     <main layout:fragment="content"></main>
     <header th:replace="~{mobile/outlines/footer::common}"></header>
+    <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
 </html>

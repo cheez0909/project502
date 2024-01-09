@@ -20,6 +20,8 @@
     <!--동적 처리 : admin을 통한 반복을 통해서 가져온 cssFile 값을 뒤에 file=${cssFile}를 통해 가져온다.-->
     <link rel="stylesheet" type="text/css" th:each="cssFile : ${addCss}" th:href="@{/front/css/{file}.css?v={v}(file=${cssFile}, v=${siteConfig.cssJsVersion})}">
 
+    <!--아이콘-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 
     <th:block layout:fragment="addCss"></th:block>
 
@@ -43,5 +45,6 @@
     <header th:replace="~{front/outlines/header::common}"></header>
     <main layout:fragment="content"></main>
     <header th:replace="~{front/outlines/footer::common}"></header>
+    <iframe name="ifrmProcess" class="dn"></iframe>
 </body>
 </html>

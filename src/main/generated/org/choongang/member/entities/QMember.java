@@ -29,6 +29,12 @@ public class QMember extends EntityPathBase<Member> {
 
     public final StringPath email = createString("email");
 
+    public final ListPath<org.choongang.board.entites.BoardData, org.choongang.board.entites.QBoardData> favoriteBoardDataList = this.<org.choongang.board.entites.BoardData, org.choongang.board.entites.QBoardData>createList("favoriteBoardDataList", org.choongang.board.entites.BoardData.class, org.choongang.board.entites.QBoardData.class, PathInits.DIRECT2);
+
+    public final ListPath<Follow, QFollow> followers = this.<Follow, QFollow>createList("followers", Follow.class, QFollow.class, PathInits.DIRECT2);
+
+    public final ListPath<Follow, QFollow> follows = this.<Follow, QFollow>createList("follows", Follow.class, QFollow.class, PathInits.DIRECT2);
+
     public final StringPath gid = createString("gid");
 
     //inherited

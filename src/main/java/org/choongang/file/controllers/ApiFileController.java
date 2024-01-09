@@ -19,7 +19,6 @@ public class ApiFileController implements ExceptionRestProcessor {
     private final FileUploadService uploadService;
 
     /**
-     *
      * @param files
      * @param gid
      * @param location
@@ -30,9 +29,11 @@ public class ApiFileController implements ExceptionRestProcessor {
     public JSONData<List<FileInfo>> upload(@RequestParam("file")MultipartFile[] files,
                                            @RequestParam(name = "gid", required = false) String gid,
                                            @RequestParam(name = "location", required = false) String location,
-                                           @RequestParam(name = "imageOnly", required = false) boolean imageOnly){
+                                           @RequestParam(name = "imageOnly", required = false) boolean imageOnly,
+                                           @RequestParam(name = "singleFile", required = false) boolean singleFile){
 
-        List<FileInfo> uploadedfiles = uploadService.upload(files, gid, location, imageOnly);
+        // 커맨드 객체로 이용하는 것도 하나의 방법... singleFile
+        List<FileInfo> uploadedfiles = uploadService.upload(files, gid, location, imageOnly, singleFile);
 
 //        JSONData<List<FileInfo>> data = new JSONData<>();
 //        data.setData(fileInfos);

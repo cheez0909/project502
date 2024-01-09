@@ -15,9 +15,13 @@
             <dt th:text="#{프로필_이미지}">
             </dt>
             <dd>
-                <button type="button" class="upload_files" th:text="#{이미지_업로드}"></button>
+                <div id="profile_image"></div>
+                <button type="button" class="upload_files"
+                        th:text="#{이미지_업로드}" data-image-only="true" data-single-file="true"></button>
             </dd>
         </dl>
+
+        <script th:replace="~{common/_file_tpl::image1_tpl}"></script>
 
         <!--
         <dl>
@@ -28,10 +32,13 @@
             </dd>
         </dl>
         -->
+
         <dl>
             <dt th:text="#{아이디}"></dt>
             <dd>
                 <input type="text" name="userId" th:field="*{userId}">
+                <!--th:if="${session.EmailAuthVerified == null || !session.EmailAuthVerified-->
+                <button id="userId_verify" th:text="#{중복확인}" type="button"></button>
                 <div class="error" th:each ="err : ${#fields.errors('userId')}" th:text="${err}"></div>
             </dd>
         </dl>
