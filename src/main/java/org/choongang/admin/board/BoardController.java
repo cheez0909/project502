@@ -89,6 +89,7 @@ public class BoardController implements ExceptionProcessor {
         } else if(mode.equals("posts")){
             pageTitle = "게시글 관리";
         }
+
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("subMenuCode", mode);
 
@@ -97,10 +98,10 @@ public class BoardController implements ExceptionProcessor {
         if(mode.equals("add") || mode.equals("edit")){
             //게시판 등록 또는 수정일 때 스크립트를 추가
             addCommonScript.add("ckeditor5/ckeditor");
+            addCommonScript.add("fileManager");
             addScript.add("board/form");
         }
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
-
     }
 }

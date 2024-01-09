@@ -87,3 +87,21 @@ commonLib.sendEmailVerifyCheck = function(authNum) {
         })
         .catch(err => console.error(err));
 };
+
+/**
+* 위지윅 에디터 로드
+* @param id = id값
+* @param height = 높이
+*/
+commonLib.loadEditor = function(id, height) {
+    if (!id) {
+        return;
+    }
+
+    height = height || 450;
+
+    // ClassicEditor
+    return ClassicEditor.create(document.getElementById(id), {
+        height
+    });
+}
