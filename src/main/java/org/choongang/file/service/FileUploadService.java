@@ -26,8 +26,11 @@ public class FileUploadService {
     private final FileInfoRepository fileInfoRepository;
     private final FileProperties fileProperties;
     private final FileInfoService fileInfoService;
+    private final FileDeleteService deleteService; // 파일을 새로 올렸을 때 기존 파일 삭제하기
     private final Utils utils; // 썸네일 추가 가져오기
-    public List<FileInfo> upload(MultipartFile[] files, String gid, String location, boolean imageOnly){
+
+    public List<FileInfo> upload(MultipartFile[] files, String gid, String location,
+                                 boolean imageOnly, boolean singleFile){
         /**
          * 1. 파일 정보 저장
          * 2. 서버쪽에 파일 업로드
@@ -36,6 +39,15 @@ public class FileUploadService {
         /* 파일 정보 저장 S */
         // 자바에서 제공되는 랜덤 아이디(유니크)
         gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString();
+
+        /*
+        *  단일 파일 업로드 일 때
+        *  gid + location : 기 업로드된 파일 삭제 -> 새로 업로드
+        * */
+        if(singleFile) {
+            deleteService.delete(location, gid);
+        }
+
         String uploadPath = fileProperties.getPath(); // 파일 업로드 기본 경로
         String thumbPath = uploadPath + "thumbs/"; // 썸네일 업로드 기본 경로
         

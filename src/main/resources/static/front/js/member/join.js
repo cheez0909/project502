@@ -114,14 +114,12 @@ function callbackEmailVerifyCheck(data) {
 
 /**
 * 유효시간 카운트
-*
 */
 const authCount = {
     intervalId : null,
     count : 60 * 3, // 유효시간 3분
     /**
     * 인증 코드 유효시간 시작
-    *
     */
     start() {
         const countEl = document.getElementById("auth_count");
@@ -153,7 +151,6 @@ const authCount = {
 
     /**
     * 인증 코드 유효시간 초기화
-    *
     */
     initialize() {
         const countEl = document.getElementById("auth_count");

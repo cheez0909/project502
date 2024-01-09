@@ -1,9 +1,12 @@
 package org.choongang.admin.member.controllers;
 
 
+import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.member.entities.Member;
+import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +17,17 @@ import java.util.List;
 
 @Controller("adminMemberController")
 @RequestMapping("/admin/member")
+@RequiredArgsConstructor
 public class MemberController implements ExceptionProcessor {
-    // 메뉴는 공통으로 쓰는 부분임
 
+    private final MemberRepository repository;
+
+    @ModelAttribute("memberList")
+    public List<Member> getMemberList(){
+        return repository.findAll();
+    }
+
+    // 메뉴는 공통으로 쓰는 부분임
     /**
      * subMenus 라는 속성값이 있으면 값이 모든 컨트롤러에서 공유가 됨
      */

@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.processing.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -16,6 +17,8 @@ import com.querydsl.core.types.Path;
 public class QBoardData extends EntityPathBase<BoardData> {
 
     private static final long serialVersionUID = 114556610L;
+
+    private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QBoardData boardData = new QBoardData("boardData");
 
@@ -29,6 +32,8 @@ public class QBoardData extends EntityPathBase<BoardData> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final org.choongang.member.entities.QMember member;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
@@ -40,15 +45,24 @@ public class QBoardData extends EntityPathBase<BoardData> {
     public final StringPath subject = createString("subject");
 
     public QBoardData(String variable) {
-        super(BoardData.class, forVariable(variable));
+        this(BoardData.class, forVariable(variable), INITS);
     }
 
     public QBoardData(Path<? extends BoardData> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QBoardData(PathMetadata metadata) {
-        super(BoardData.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QBoardData(PathMetadata metadata, PathInits inits) {
+        this(BoardData.class, metadata, inits);
+    }
+
+    public QBoardData(Class<? extends BoardData> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.member = inits.isInitialized("member") ? new org.choongang.member.entities.QMember(forProperty("member")) : null;
     }
 
 }
