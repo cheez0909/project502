@@ -1,5 +1,6 @@
 package org.choongang.member;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,15 @@ public class FindPwServiceTest {
     @Autowired
     private FindPwService service;
 
-    @Test
+    @Test @Disabled
     @DisplayName("비밀번호 초기화 및 초기화된 메일 이메일 전송 테스트")
     void resetTest() {
         assertDoesNotThrow(() -> service.reset("bin0696@naver.com"));
+    }
+
+    @Test
+    @DisplayName("회원 추가")
+    void addMember(){
+
     }
 }

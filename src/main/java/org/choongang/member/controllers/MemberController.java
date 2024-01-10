@@ -7,6 +7,7 @@ import org.choongang.commons.Utils;
 import org.choongang.member.services.FindIdService;
 import org.choongang.member.services.FindPwService;
 import org.choongang.member.services.JoinService;
+import org.choongang.member.services.MemberInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,6 +28,8 @@ public class MemberController implements ExceptionProcessor {
     private final JoinService joinService;
     private final FindPwService findPwService;
     private final FindIdService findIdService;
+
+    private final MemberInfoService memberInfoService;
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin requestJoin, Model model){
@@ -60,6 +63,7 @@ public class MemberController implements ExceptionProcessor {
      * @param mode
      * @param model
      */
+
     private void commonProcess(String mode, Model model){
         mode = StringUtils.hasText(mode) ? mode : "join";
         String pageTitle = Utils.getMessage("회원가입", "commons");
@@ -88,6 +92,7 @@ public class MemberController implements ExceptionProcessor {
         // 프론트에만 필요하면 프론트로
         // 파일기능은 공통이기 때문에 common에 넣음
     }
+
 
     /**
      * 비밀번호 찾기 양식
@@ -182,6 +187,9 @@ public class MemberController implements ExceptionProcessor {
 
         return utils.tpl("member/find_id_done");
     }
+
+
+
 
 
 

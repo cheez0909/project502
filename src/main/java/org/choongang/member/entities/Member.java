@@ -3,7 +3,6 @@ package org.choongang.member.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import org.choongang.board.entites.BoardData;
 import org.choongang.commons.entites.Base;
 import org.choongang.file.entites.FileInfo;
 
@@ -40,12 +39,12 @@ public class Member extends Base {
     @Transient
     private FileInfo profileImage;
 
-    @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
-    private List<Follow> follows = new ArrayList<>();
-
-    @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
-    private List<Follow> followers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<BoardData> favoriteBoardDataList = new ArrayList<>();
+//    @OneToMany(mappedBy = "fromMember", fetch = FetchType.LAZY)
+//    private List<Follow> follows = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "toMember", fetch = FetchType.LAZY)
+//    private List<Follow> followers = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<BoardData> favoriteBoardDataList = new ArrayList<>();
 }

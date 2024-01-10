@@ -9,6 +9,9 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/**
+ * 관리자 쪽에서 많이 사용하게 됨... 기록을 봐야하기 때문...
+ */
 @Getter @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
