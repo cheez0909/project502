@@ -51,6 +51,20 @@ window.addEventListener("DOMContentLoaded", function() {
                             });
                           }
                           /* 인증번호 확인 처리 E */
+
+                        /** 버튼 S **/
+                        const findIdButton = document.querySelector(".find_id_button");
+
+                        // 버튼 생성 및 설정
+                        const newButton = document.createElement("button");
+                        newButton.type = "submit";
+                        newButton.value = "아이디찾기";
+                        newButton.textContent = "아이디 찾기"; // 버튼 텍스트 설정
+
+                        // 기존 버튼 대신에 새로운 버튼으로 교체
+                        findIdButton.innerHTML = ""; // 기존 버튼 내용 삭제
+                        findIdButton.appendChild(newButton); // 새로운 버튼 추가
+                        /** 버튼 E **/
                     }
                 });
             /* 이메일 확인 전 이미 가입된 이메일인지 여부 체크 E */
