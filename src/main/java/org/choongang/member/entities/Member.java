@@ -1,8 +1,7 @@
 package org.choongang.member.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 import org.choongang.board.entites.BoardData;
 import org.choongang.commons.entites.Base;
 import org.choongang.file.entites.FileInfo;
@@ -11,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
+@Entity @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member extends Base {
     @Id @GeneratedValue
     private Long seq;
