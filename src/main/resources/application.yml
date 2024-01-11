@@ -1,5 +1,5 @@
 server:
-  port: 4000
+  port: 3000
 
 spring:
 #  profiles:
@@ -16,8 +16,8 @@ spring:
   mail:
     host: smtp.gmail.com # SMTP 서버 호스트
     port: 587 # SMTP 서버 포트
-    username: ${mail.username} #eun081217 #{mail.username}
-    password: ${mail.password} # pmcajeakiaerlvob # {mail.password}
+    username: eun081217 #{mail.username}
+    password: pmcajeakiaerlvob # {mail.password}
     properties:
       mail:
         smtp:

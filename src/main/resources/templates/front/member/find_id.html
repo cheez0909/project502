@@ -37,13 +37,13 @@
                             <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
                         </th:block>
                     </div>
+                    <div class="find_id_button"></div>
                     <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
                 </dd>
             </dl>
 
 
-            <button type="submit" id="find_id_button" th:text="#{아이디_찾기}" disabled></button>
-            <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+
         </form>
     </main>
     </html>

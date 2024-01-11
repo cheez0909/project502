@@ -3,6 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/main}">
 <main layout:fragment="content">
-<h1>미정</h1>
+    아이디 : <div th:if="${member != null}" th:text="${member.userId}"></div>
+    <a th:href="@{/member/login}" th:text="#{로그인}"></a>
+    <a th:href="@{/member/find_pw}" th:text="#{비밀번호_찾기}"></a>
 </main>
 </html>
