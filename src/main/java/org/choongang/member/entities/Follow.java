@@ -16,12 +16,12 @@ public class Follow {
     @Column(name = "follow_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "from_member")
-    private Member fromMember;
-
-    @ManyToOne
-    @JoinColumn(name = "to_member")
-    private Member toMember;
+//    @ManyToOne
+//    @JoinColumn(name = "from_member")
+//    private Member fromMember;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "to_member")
+//    private Member toMember;
 
 }

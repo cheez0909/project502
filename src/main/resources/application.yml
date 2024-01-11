@@ -36,7 +36,7 @@ spring:
         # 방언설정
         dialect: org.hibernate.dialect.OracleDialect
     hibernate:
-      ddlAuto: update # 수정과 보완이 많이 일어나니까 초기에 많이 사용
+      ddlAuto: create # 수정과 보완이 많이 일어나니까 초기에 많이 사용
 
   # 타임리프 설정
   thymeleaf:
