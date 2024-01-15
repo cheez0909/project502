@@ -42,3 +42,11 @@ function callbackFileUpload(files){
     //console.log(files);
  }
 }
+
+/**
+* 에디터에 이미지 추가
+*
+*/
+function insertImage(editor, source) {
+    editor.execute('insertImage', { source });
+}

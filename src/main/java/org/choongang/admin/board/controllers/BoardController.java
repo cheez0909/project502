@@ -1,40 +1,50 @@
 package org.choongang.admin.board.controllers;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.choongang.admin.menus.Menu;
 import org.choongang.admin.menus.MenuDetail;
+import org.choongang.board.entites.Board;
+import org.choongang.board.service.config.BoardConfigDeleteService;
+import org.choongang.board.service.config.BoardConfigInfoService;
+import org.choongang.board.service.config.BoardConfigSaveService;
 import org.choongang.commons.ExceptionProcessor;
+import org.choongang.commons.ListData;
+import org.choongang.commons.Pagination;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
+@RequiredArgsConstructor
 public class BoardController implements ExceptionProcessor {
+
     private final BoardConfigSaveService configSaveService;
     private final BoardConfigInfoService configInfoService;
+    private final BoardConfigDeleteService configDeleteService;
 
     private final BoardConfigValidator configValidator;
+
     @ModelAttribute("menuCode")
-    public String getMenuCode(){ // 주 메뉴코드
+    public String getMenuCode() { // 주 메뉴 코드
         return "board";
     }
 
     @ModelAttribute("subMenus")
-    public List<MenuDetail> getSubMenus(){ // 서브 메뉴
+    public List<MenuDetail> getSubMenus() { // 서브 메뉴
         return Menu.getMenus("board");
     }
 
     /**
      * 게시판 목록
+     *
+     * @return
      */
     @GetMapping
     public String list(@ModelAttribute BoardSearch search, Model model) {
@@ -52,13 +62,40 @@ public class BoardController implements ExceptionProcessor {
     }
 
     /**
+     * 게시판 목록 - 수정
+     *
+     * @param chks
+     * @return
+     */
+    @PatchMapping
+    public String editList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configSaveService.saveList(chks);
+
+        model.addAttribute("script", "parent.location.reload()");
+        return "common/_execute_script";
+    }
+
+    @DeleteMapping
+    public String deleteList(@RequestParam("chk") List<Integer> chks, Model model) {
+        commonProcess("list", model);
+
+        configDeleteService.deleteList(chks);
+
+        model.addAttribute("script", "parent.location.reload();");
+        return "common/_execute_script";
+    }
+
+    /**
      * 게시판 등록
      *
      * @return
      */
     @GetMapping("/add")
-    public String add(@ModelAttribute RequestBoardConfig config, Model model){
+    public String add(@ModelAttribute RequestBoardConfig config, Model model) {
         commonProcess("add", model);
+
         return "admin/board/add";
     }
 
@@ -72,21 +109,28 @@ public class BoardController implements ExceptionProcessor {
 
         return "admin/board/edit";
     }
+
     /**
      * 게시판 등록/수정 처리
-     * 추가와 수정을 동시에
+     *
      * @return
      */
     @PostMapping("/save")
-    public String save(@Valid RequestBoardConfig config, Errors errors, Model model){
+    public String save(@Valid RequestBoardConfig config, Errors errors, Model model) {
         String mode = config.getMode();
 
         commonProcess(mode, model);
 
-        if(errors.hasErrors()){
+        configValidator.validate(config, errors);
+
+        if (errors.hasErrors()) {
+            errors.getAllErrors().stream().forEach(System.out::println);
             return "admin/board/" + mode;
         }
-        // 저장일수도 있고 목록일수도 있음
+
+        configSaveService.save(config);
+
+
         return "redirect:/admin/board";
     }
 
@@ -96,40 +140,40 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/posts")
-    public String posts(Model model){
+    public String posts(Model model) {
         commonProcess("posts", model);
+
         return "admin/board/posts";
     }
 
-
     /**
-     * 공통처리
+     * 공통 처리
+     *
      * @param mode
      * @param model
      */
-    private static void commonProcess(String mode, Model model){
+    private void commonProcess(String mode, Model model) {
         String pageTitle = "게시판 목록";
         mode = StringUtils.hasText(mode) ? mode : "list";
 
-
-
-        if(mode.equals("add")){
+        if (mode.equals("add")) {
             pageTitle = "게시판 등록";
-        } else if(mode.equals("edit")){
+
+        } else if (mode.equals("edit")) {
             pageTitle = "게시판 수정";
-        } else if(mode.equals("posts")){
+
+        } else if (mode.equals("posts")) {
             pageTitle = "게시글 관리";
+
         }
-
-
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 
-        if(mode.equals("add") || mode.equals("edit")){
-            //게시판 등록 또는 수정일 때 스크립트를 추가
+        if (mode.equals("add") || mode.equals("edit")) { // 게시판 등록 또는 수정
             addCommonScript.add("ckeditor5/ckeditor");
             addCommonScript.add("fileManager");
+
             addScript.add("board/form");
         }
 
@@ -139,3 +183,4 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addScript", addScript);
     }
 }
+
