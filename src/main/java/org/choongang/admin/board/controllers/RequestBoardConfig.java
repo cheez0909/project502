@@ -47,4 +47,10 @@ public class RequestBoardConfig {
 
     private String htmlTop; // 게시판 상단 html
     private String htmlBottom; // 게시판 하단 html
+
+    @Transient
+    private List<FileInfo> htmlTopImages; // 게시판 상단 Top 이미지
+
+    @Transient
+    private List<FileInfo> htmlBottomImages; // 게시판 하단 Bottom 이미지
 }

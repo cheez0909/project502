@@ -37,7 +37,7 @@
                             <span class='confirmed' th:text="#{확인된_이메일_입니다.}"></span>
                         </th:block>
                     </div>
-                    <div class="find_id_button"></div>
+                    <button type="submit" th:text="#{아이디_찾기}" id="find_id_btn" disabled></button>
                     <div class="error" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
                 </dd>
             </dl>
