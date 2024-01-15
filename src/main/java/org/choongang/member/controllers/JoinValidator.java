@@ -7,12 +7,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.choongang.member.controllers.JoinValidator''
 
 @Component
 @RequiredArgsConstructor
 public class JoinValidator implements Validator, PasswordValidator {
 
     private final MemberRepository memberRepository;
+    private final HttpSession session;
 
     /**
      * 검증하려는 대상을 한정함 -> 커맨드 객체
@@ -32,6 +34,7 @@ public class JoinValidator implements Validator, PasswordValidator {
          *  -> 특수문자 1개 이상
          *
          * 3. 비밀번호, 비밀번호 확인 일치 여부 체크
+         * 4. 이메일 인증 필수 여부
          */
 
         RequestJoin form = (RequestJoin) target;
@@ -59,6 +62,12 @@ public class JoinValidator implements Validator, PasswordValidator {
         // 3. 비밀번호, 비밀번호 확인 일치 여부 체크
         if(StringUtils.hasText(password) && StringUtils.hasText(confirmPassword) && !password.equals(confirmPassword)){
             errors.rejectValue("confirmPassword", "Mismatch.password");
+        }
+
+        // 4. 이메일 인증 필수 여부 체크
+        boolean isVerified = session.getAttribute("EmailAuthVerified");
+        if(!isVerified){
+            errors.rejectValue("email", "Required.verified");
         }
     }
 }

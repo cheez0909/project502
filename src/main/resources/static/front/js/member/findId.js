@@ -123,15 +123,9 @@ function callbackEmailVerifyCheck(data) {
 
         const findIdButton = document.querySelector(".find_id_button");
 
-        // 버튼 생성 및 설정
-        const newButton = document.createElement("button");
-        newButton.type = "submit";
-        newButton.value = "아이디찾기";
-        newButton.textContent = "아이디 찾기"; // 버튼 텍스트 설정
-
-        // 기존 버튼 대신에 새로운 버튼으로 교체
-        findIdButton.innerHTML = ""; // 기존 버튼 내용 삭제
-        findIdButton.appendChild(newButton); // 새로운 버튼 추가
+         // 5. 인증 성공 시 버튼 활성화
+         const findIdbtn = document.getElementById("find_id_btn");
+         findIdbtn.removeAttribute('disabled');
 
     } else { // 인증 실패
         alert("이메일 인증에 실패하였습니다.");

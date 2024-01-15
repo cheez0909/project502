@@ -19,7 +19,10 @@ import java.util.List;
 @Controller("adminBoardController")
 @RequestMapping("/admin/board")
 public class BoardController implements ExceptionProcessor {
+    private final BoardConfigSaveService configSaveService;
+    private final BoardConfigInfoService configInfoService;
 
+    private final BoardConfigValidator configValidator;
     @ModelAttribute("menuCode")
     public String getMenuCode(){ // 주 메뉴코드
         return "board";
@@ -34,8 +37,17 @@ public class BoardController implements ExceptionProcessor {
      * 게시판 목록
      */
     @GetMapping
-    public String list(Model model){
+    public String list(@ModelAttribute BoardSearch search, Model model) {
         commonProcess("list", model);
+
+        ListData<Board> data = configInfoService.getList(search);
+
+        List<Board> items = data.getItems();
+        Pagination pagination = data.getPagination();
+
+        model.addAttribute("items", items);
+        model.addAttribute("pagination", pagination);
+
         return "admin/board/list";
     }
 
@@ -50,6 +62,16 @@ public class BoardController implements ExceptionProcessor {
         return "admin/board/add";
     }
 
+    @GetMapping("/edit/{bid}")
+    public String edit(@PathVariable("bid") String bid, Model model) {
+        commonProcess("edit", model);
+
+        RequestBoardConfig form = configInfoService.getForm(bid);
+        System.out.println(form);
+        model.addAttribute("requestBoardConfig", form);
+
+        return "admin/board/edit";
+    }
     /**
      * 게시판 등록/수정 처리
      * 추가와 수정을 동시에
@@ -99,17 +121,20 @@ public class BoardController implements ExceptionProcessor {
             pageTitle = "게시글 관리";
         }
 
-        model.addAttribute("pageTitle", pageTitle);
-        model.addAttribute("subMenuCode", mode);
+
 
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
+
         if(mode.equals("add") || mode.equals("edit")){
             //게시판 등록 또는 수정일 때 스크립트를 추가
             addCommonScript.add("ckeditor5/ckeditor");
             addCommonScript.add("fileManager");
             addScript.add("board/form");
         }
+
+        model.addAttribute("pageTitle", pageTitle);
+        model.addAttribute("subMenuCode", mode);
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
     }
