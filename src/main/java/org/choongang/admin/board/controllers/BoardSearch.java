@@ -1,7 +1,10 @@
 package org.choongang.admin.board.controllers;
 
+import lombok.Data;
+import org.choongang.member.controllers.MemberSearch;
+
 @Data
-public class BoardSearch extends MemberSearch{
+public class BoardSearch extends MemberSearch {
     private String bid;
     private String bName;
     private boolean active;

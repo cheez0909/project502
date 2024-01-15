@@ -28,10 +28,12 @@ public class MemberUtil {
     public boolean isLogin(){
         return getMember()!=null;
     }
+
     public Member getMember(){
         Member member = (Member)session.getAttribute("member");
         return member;
     }
+
 
     /**
      * 로그인 실패 or 성공 시

@@ -1,0 +1,1 @@
+commonLib.loadEditor = function
