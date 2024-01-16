@@ -1,1 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Diphylleia&family=East+Sea+Dokdo&family=Song+Myung&family=Stylish&display=swap');
+* { font-family: 'Stylish', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+html { font-size: 13px; }
+body { margin: 0; }
+a { text-decoration: none; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
+dl, dt, dd { margin: 0; padding: 0; }
+img { border: 0; }
 
+.layout_width { max-width: 1300px; min-width: 1000px; margin: 0 auto; }
+
+.pagination { text-align: center; margin: 30px 0; }
+.pagination .page { border: 1px solid #596b99; color: #596b99; display: inline-block; padding: 5px 10px; border-radius: 3px; background: #fff; }
+.pagination .page.on { background: #596b99; color: #fff; }
+.pagination .page + .page { margin-left: 3px; }

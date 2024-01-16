@@ -8,15 +8,10 @@ import org.choongang.file.service.FileInfoService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.ArrayList;
-
 
 
 @Component // 스프링 관리 객체
@@ -218,5 +213,17 @@ public class Utils {
      */
     public String[] getParams(String name) {
         return request.getParameterValues(name);
+    }
+
+    /**
+     * 비회원 UID(Unique ID)
+     *  - IP + 브라우저 정보
+     *
+     * @return
+     */
+    public int guestUid(){
+        String ip = request.getRemoteAddr(); // ip주소
+        String ua = request.getHeader("User-Agent");
+        return Objects.hash(ip, ua);
     }
 }
