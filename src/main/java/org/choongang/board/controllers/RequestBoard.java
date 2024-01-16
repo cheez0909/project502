@@ -1,5 +1,6 @@
 package org.choongang.board.controllers;
 
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.choongang.file.entites.FileInfo;
@@ -23,8 +24,20 @@ public class RequestBoard {
     @NotBlank
     private String content; // 글 내용
 
-    // 미완료되었을 때 파일 유지를 위해서 추가
+    private Long num1; // 추가 필드 - 정수
+    private Long num2; // 추가 필드 - 정수
+    private Long num3; // 추가 필드 - 정수
 
+    private String text1; // 추가 필드 - 한줄 텍스트
+    private String text2; // 추가 필드 - 한줄 텍스트
+    private String text3; // 추가 필드 - 한줄 텍스트
+
+
+    private String longText1; // 추가 필드 : 여러줄 텍스트
+    private String longText2; // 추가 필드 : 여러줄 텍스트
+    private String longText3; // 추가 필드 : 여러줄 텍스트
+
+    // 미완료되었을 때 파일 유지를 위해서 추가
     private List<FileInfo> editorFiles; // 에디터 파일 목록
     private List<FileInfo> attachFiles; // 첨부 파일 목록
 }
