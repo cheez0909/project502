@@ -1,13 +1,13 @@
 package org.choongang.board.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entites.Board;
 import org.choongang.board.entites.BoardData;
-import org.choongang.board.entites.BoardView;
 import org.choongang.board.repositories.BoardViewRepository;
-import org.choongang.board.service.BoardInfoService;
-import org.choongang.board.service.BoardSaveService;
+import org.choongang.board.service.*;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
@@ -28,6 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@SessionAttributes("seq")
 public class BoardController implements ExceptionProcessor {
 
     /*
@@ -68,7 +69,9 @@ public class BoardController implements ExceptionProcessor {
     private final BoardFormValidator boardFormValidator;
     private final BoardSaveService boardSaveService;
     private final BoardInfoService boardInfoService;
+    private final BoardDeleteService boardDeleteService;
     private final BoardViewRepository boardViewRepository;
+    private final BoardAuthService boardAuthService;
 
 
     private Board board;
@@ -97,9 +100,20 @@ public class BoardController implements ExceptionProcessor {
      * @return
      */
     @GetMapping("/view/{seq}")
-    public String view(@PathVariable("seq") Long seq, Model model) {
+    public String view(@PathVariable("seq") Long seq, @ModelAttribute BoardDataSearch search, Model model) {
         boardInfoService.updateViewCount(seq);
+
         commonProcess(seq, "view", model);
+
+        // 게시글 보기 하단 목록 노출 S
+        if(board.isShowListBelowView()){ // 게시글 보기 하단 목록 노출
+            ListData<BoardData> data = boardInfoService.getList(board.getBid(), search);
+
+            model.addAttribute("items", data.getItems());
+            model.addAttribute("pagination", data.getPagination());
+        }
+        // 게시글 보기 하단 목록 노출 E
+
         return utils.tpl("board/view");
     }
 
@@ -234,24 +248,60 @@ public class BoardController implements ExceptionProcessor {
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);
         model.addAttribute("pageTitle", pageTitle);
-
     }
-        /**
-         * 게시판 공통 처리 : 게시글 보기, 수정 -> 게시글 번ㅇ호가 있는 경우
-         *  - 게시글 조회 후 -> 게시글 설정을 가져옴
-         * @param seq : 게시판 번호
-         * @param mode
-         * @param model
-         */
-        private void commonProcess (Long seq, String mode, Model model){
-            /* 게시판 설정 처리 S */
-            boardData = boardInfoService.get(seq);
-            String bid = boardData.getBoard().getBid();
-            commonProcess(bid, mode, model);
-            model.addAttribute("boardData", boardData);
-            /* 게시판 설정 처리 E */
+
+    @GetMapping("/delete/{seq}")
+    public String delete(@PathVariable("seq") Long seq, Model model){
+        commonProcess(seq, "delete", model);
+
+        boardDeleteService.delete(seq);
+
+        return "redirect:/board/list/" + board.getBid();
+    }
+
+    /**
+     * 비회원 글 수정, 삭제
+     * @param password
+     * @param model
+     * @return
+     */
+
+    @PostMapping("/password")
+    public String passwordCheck(@RequestParam(name="password", required = false) String password, Model model) {
+        boardAuthService.validate(password);
+
+        model.addAttribute("script", "parent.location.reload();");
+
+        return "common/_execute_script";
+    }
+    /**
+     * 게시판 공통 처리 : 게시글 보기, 수정 -> 게시글 번ㅇ호가 있는 경우
+     *  - 게시글 조회 후 -> 게시글 설정을 가져옴
+     * @param seq : 게시판 번호
+     * @param mode
+     * @param model
+     */
+    private void commonProcess (Long seq, String mode, Model model){
+        model.addAttribute("seq", seq);
+        model.addAttribute("mode", mode);
+        boardAuthService.check(mode, seq);
+
+        /* 게시판 설정 처리 S */
+        boardData = boardInfoService.get(seq);
+        String bid = boardData.getBoard().getBid();
+
+        commonProcess(bid, mode, model);
+        model.addAttribute("boardData", boardData);
+        /* 게시판 설정 처리 E */
+    }
+
+
+    @Override
+    @ExceptionHandler(Exception.class)
+    public String errorHandler(Exception e, HttpServletResponse response, HttpServletRequest request, Model model) {
+        if(e instanceof GuestPasswordCheckException){
+            return utils.tpl("board/password");
         }
-
-
-
+        return ExceptionProcessor.super.errorHandler(e, response, request, model);
+    }
 }

@@ -25,6 +25,7 @@ public class BoardSaveService {
     private final HttpServletRequest request;
     private final PasswordEncoder encoder;
     private final BoardRepository boardRepository;
+    private final BoardAuthService boardAuthService;
 
     // 저장 후 이동할 때 게시물로 가면.. 게시물no가 필요함
     public BoardData save(RequestBoard form){
@@ -32,6 +33,11 @@ public class BoardSaveService {
         String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "write";
         Long seq = form.getSeq();
+
+        // 수정 권한 체크
+        if(mode.equals("update")){
+            boardAuthService.check(mode, seq);
+        }
 
         BoardData data = null;
         if(seq!=null && mode.equals("update")){
@@ -89,8 +95,7 @@ public class BoardSaveService {
         // 파일 업로드 완료 처리
         fileUploadService.processDone(data.getGid());
 
-
-
         return data;
     }
+
 }

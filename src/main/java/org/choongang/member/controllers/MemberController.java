@@ -1,5 +1,7 @@
 package org.choongang.member.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.choongang.commons.ExceptionProcessor;
@@ -187,9 +189,6 @@ public class MemberController implements ExceptionProcessor {
 
         return utils.tpl("member/find_id_done");
     }
-
-
-
 
 
 

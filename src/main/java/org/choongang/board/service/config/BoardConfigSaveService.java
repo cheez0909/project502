@@ -47,6 +47,7 @@ public class BoardConfigSaveService {
         board.setLocationAfterWriting(form.getLocationAfterWriting());
         board.setSkin(form.getSkin());
         board.setCategory(form.getCategory());
+        board.setShowListBelowView(form.isShowListBelowView());
 
         board.setListAccessType(Authority.valueOf(form.getListAccessType()));
         board.setViewAccessType(Authority.valueOf(form.getViewAccessType()));
