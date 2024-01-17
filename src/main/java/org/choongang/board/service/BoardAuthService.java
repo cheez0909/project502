@@ -106,6 +106,10 @@ public void accessCheck(String mode, Board board){
     if(memberUtil.isAdmin()) {
         return; // 관리자일때 체크 불필요
     }
+    if (!board.isActive()) { // 미노출 게시판
+        throw new UnAuthorizedException();
+    }
+
     boolean accessible = false;
     Authority target = Authority.ALL;
     if(mode.equals("write") || mode.equals("update")){ // 글쓰기 페이지

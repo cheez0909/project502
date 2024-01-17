@@ -19,6 +19,7 @@ import java.util.UUID;
 @Entity
 @Data @Builder
 @NoArgsConstructor @AllArgsConstructor
+@Table(indexes = @Index(name="idx_board_basic", columnList = "listOrder DESC, createdAt DESC"))
 public class Board extends BaseMember {
     @Id
     @Column(length=30)
@@ -29,6 +30,8 @@ public class Board extends BaseMember {
 
     @Column(length=60, nullable = false)
     private String bName; // 게시판 이름
+
+    private int listOrder; // 진열 가중치(가중치에 따라 순서를 바꿈)
 
     private boolean active; // 사용 여부
 

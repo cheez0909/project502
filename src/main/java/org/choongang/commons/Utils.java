@@ -145,12 +145,16 @@ public class Utils {
      * @return
      */
     public String printThumb(long seq, int width, int height, String className){
-        String[] data = fileInfoService.getThumb(seq, width, height);
-        if(data != null){
-            // 클래스 네임이 있을땐 클래스 네임 넣어줌
-            String cls = StringUtils.hasText(className) ? " class='"+className+"'" : "";
-            String image = String.format("<img src='%s'%s>", data[1], cls);
-            return image;
+        try {
+            String[] data = fileInfoService.getThumb(seq, width, height);
+            if (data != null) {
+                // 클래스 네임이 있을땐 클래스 네임 넣어줌
+                String cls = StringUtils.hasText(className) ? " class='" + className + "'" : "";
+                String image = String.format("<img src='%s'%s>", data[1], cls);
+                return image;
+            }
+        } catch (Exception e){
+
         }
         return "";
     }

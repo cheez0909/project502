@@ -23,6 +23,7 @@ public class RequestBoardConfig {
 
     @NotBlank
     private String bName; // 게시판 이름
+    private int listOrder;
 
     private boolean active; // 사용 여부
 

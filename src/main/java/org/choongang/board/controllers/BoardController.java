@@ -211,6 +211,10 @@ public class BoardController implements ExceptionProcessor {
 
         /* 게시판 설정 처리 S */
         board = configInfoService.get(bid); // 새로 조회
+
+        // 접근 권한 체크
+        boardAuthService.accessCheck(mode, board);
+
         // 스킨별 css, js 추가 : 한 파일에 모아서 하면 스타일이 중복될 수 있음
         String skin = board.getSkin();
         addCss.add("board/skin_" + skin);
