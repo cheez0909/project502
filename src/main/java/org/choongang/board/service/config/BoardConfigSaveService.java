@@ -47,6 +47,7 @@ public class BoardConfigSaveService {
         board.setLocationAfterWriting(form.getLocationAfterWriting());
         board.setSkin(form.getSkin());
         board.setCategory(form.getCategory());
+        board.setShowListBelowView(form.isShowListBelowView());
 
         board.setListAccessType(Authority.valueOf(form.getListAccessType()));
         board.setViewAccessType(Authority.valueOf(form.getViewAccessType()));
@@ -57,6 +58,7 @@ public class BoardConfigSaveService {
         board.setHtmlTop(form.getHtmlTop());
         board.setHtmlBottom(form.getHtmlBottom());
 
+        board.setListOrder(form.getListOrder());
         boardRepository.saveAndFlush(board);
 
         // 파일 업로드 완료 처리
@@ -75,6 +77,10 @@ public class BoardConfigSaveService {
 
             boolean active = Boolean.parseBoolean(utils.getParam("active_" + chk));
             board.setActive(active);
+
+
+            int listOrder = Integer.parseInt(utils.getParam("listOrder_" + chk));
+            board.setListOrder(listOrder);
         }
 
         boardRepository.flush();

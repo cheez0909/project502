@@ -2,6 +2,7 @@ package org.choongang.commons;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.choongang.board.service.GuestPasswordCheckException;
 import org.choongang.commons.exceptions.AlertBackException;
 import org.choongang.commons.exceptions.AlertException;
 import org.choongang.commons.exceptions.CommonException;
@@ -19,8 +20,10 @@ public interface ExceptionProcessor {
 //
 //    }
     @ExceptionHandler(Exception.class)
-    default String errorHandler(Exception e, Model model, HttpServletResponse response, HttpServletRequest request){
+    default String errorHandler(Exception e, HttpServletResponse response, HttpServletRequest request, Model model) {
+
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
         if(e instanceof CommonException){
             CommonException status1 = (CommonException) e;
             status =  status1.getStatus();
@@ -40,6 +43,7 @@ public interface ExceptionProcessor {
             // 자바 스크립트 Alert 형태로 응답
             return "common/_execute_script";
         }
+
         /**
          * 상태코드, 경로, 메세지, 메서드(요청방식)
          */
@@ -47,6 +51,9 @@ public interface ExceptionProcessor {
         model.addAttribute("path", request.getRequestURI());
         model.addAttribute("method", request.getMethod());
         model.addAttribute("meesage", e.getMessage());
+
         return "error/common";
     }
+
+
 }

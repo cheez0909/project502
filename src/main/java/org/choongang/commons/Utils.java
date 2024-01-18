@@ -145,12 +145,16 @@ public class Utils {
      * @return
      */
     public String printThumb(long seq, int width, int height, String className){
-        String[] data = fileInfoService.getThumb(seq, width, height);
-        if(data != null){
-            // 클래스 네임이 있을땐 클래스 네임 넣어줌
-            String cls = StringUtils.hasText(className) ? " class='"+className+"'" : "";
-            String image = String.format("<img src='%s'%s>", data[1], cls);
-            return image;
+        try {
+            String[] data = fileInfoService.getThumb(seq, width, height);
+            if (data != null) {
+                // 클래스 네임이 있을땐 클래스 네임 넣어줌
+                String cls = StringUtils.hasText(className) ? " class='" + className + "'" : "";
+                String image = String.format("<img src='%s'%s>", data[1], cls);
+                return image;
+            }
+        } catch (Exception e){
+
         }
         return "";
     }
@@ -173,7 +177,7 @@ public class Utils {
         // 알파벳 생성
         Stream<String> alphas = IntStream.concat(IntStream.rangeClosed((int)'a', (int)'z'), IntStream.rangeClosed((int)'A', (int)'Z')).mapToObj(s -> String.valueOf((char)s));
 
-        // 숫자 생성
+        // 숫자 생성s
         Stream<String> nums = IntStream.range(0, 10).mapToObj(String::valueOf);
 
         // 특수문자 생성
@@ -225,5 +229,15 @@ public class Utils {
         String ip = request.getRemoteAddr(); // ip주소
         String ua = request.getHeader("User-Agent");
         return Objects.hash(ip, ua);
+    }
+
+    /**
+     * 삭제 버튼 클릭 시 "정말 삭제하시겠습니까?" confirm 대화상자
+     *
+     * @return
+     */
+    public String confirmDelete(){
+        String msg = Utils.getMessage("Confirm.delete.message", "commons");
+        return String.format("return confirm('%s');", msg);
     }
 }

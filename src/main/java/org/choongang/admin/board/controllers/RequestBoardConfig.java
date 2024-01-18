@@ -23,6 +23,7 @@ public class RequestBoardConfig {
 
     @NotBlank
     private String bName; // 게시판 이름
+    private int listOrder;
 
     private boolean active; // 사용 여부
 
@@ -31,6 +32,8 @@ public class RequestBoardConfig {
     private int pageCountPc = 10; // PC 페이지 구간 갯수
 
     private int pageCountMobile = 5; // Mobile 페이지 구간 갯수
+
+    private boolean showListBelowView; // 글 보기 하단 목록 노출 여부
 
     private boolean useReply; // 답글 사용 여부
 
