@@ -113,7 +113,7 @@ public class CommentInfoService {
         // 비회원 -> 비회원 비밀번호가 확인된 경우 삭제, 수정 가능
         // 비회원 비밀번호 인증여부 세션에 있는 guset_confirmed_게시글번호 true -> 인증
         HttpSession session = request.getSession();
-        String key = "guest_confirmed_" + data.getSeq(); // 비회원 비밀번호가 인증됐을 때
+        String key = "guest_comment_confirmed_" + data.getSeq(); // 비회원 비밀번호가 인증됐을 때
 
         /* 비밀번호 인증 */
         Boolean guestConfirmed = (Boolean) session.getAttribute(key);

@@ -65,9 +65,11 @@ public class CommentController implements ExceptionProcessor {
 //        commentAuthService.check("delete", seq);
 //        commonProcess("delete", model);
 //        CommentData delete = commentDeleteService.delete(seq);
-
+        System.out.println("=============1===============");
         boardAuthService.check("comment_delete", seq);
+        System.out.println("=============2===============");
         Long boardDataSeq = commentDeleteService.delete(seq);
+        System.out.println("=============3===============");
         return "redirect:/board/view/"+boardDataSeq;
     }
 
