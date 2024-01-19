@@ -20,7 +20,7 @@ import java.util.UUID;
 @Table(indexes = {
         @Index(name = "idx_boardData_basic", columnList = "notice DESC, createdAt DESC")
 })
-public class BoardData extends Base {
+public class BoardData extends Base implements AuthCheck{
 
     @Id @GeneratedValue
     private Long seq;
@@ -53,12 +53,13 @@ public class BoardData extends Base {
     @Column(nullable = false)
     private String content;
 
+    private int viewCount; // 조회 수
+    private int commentCount; // 댓글 수 -> getTotal
 
-    private int viewCount; // 조회수
     @Column(length = 20)
     private String ip; // IP주소
 
-    @Column(length = 255)
+    @Column(length = 255)  // 효과적인 db사용을 위해 길이를 제한함
     private String ua; // user-agent : 브라우저 정보
 
     @Column(length = 100)
@@ -100,8 +101,11 @@ public class BoardData extends Base {
     private boolean mine; // 게시글 소유자
 
     @Transient
-    private boolean showEditButton; // 수정 버튼 노출 여부
+    private boolean showEditButton; // 수정 버튼 노출 여부 : 노출에 대한 부분이지 버튼 자체가 아님
 
     @Transient
-    private boolean showDeleteButton; // 삭제 버튼 노출 여부
+    private boolean showDeleteButton; // 삭제 버튼 노출 여부 : 노출에 대한 부분이지 버튼 자체가 아님
+
+    @Transient
+    private List<CommentData> comments; // 댓글 목록
 }

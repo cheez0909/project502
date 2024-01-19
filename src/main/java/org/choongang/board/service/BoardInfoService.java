@@ -15,6 +15,7 @@ import org.choongang.board.controllers.RequestBoard;
 import org.choongang.board.entites.*;
 import org.choongang.board.repositories.BoardDataRepository;
 import org.choongang.board.repositories.BoardViewRepository;
+import org.choongang.board.service.comment.CommentInfoService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.file.entites.FileInfo;
 import org.choongang.file.service.FileInfoService;
@@ -34,14 +35,16 @@ public class BoardInfoService {
 
     private final EntityManager em;
     private final BoardDataRepository boardDataRepository;
+    private final BoardViewRepository boardViewRepository;
+
     private final BoardConfigInfoService configInfoService;
+    private final CommentInfoService commentInfoService;
 
     private final FileInfoService fileInfoService;
     private final HttpServletRequest request;
 
-    private final Utils utils;
     private final MemberUtil memberUtil;
-    private final BoardViewRepository boardViewRepository;
+    private final Utils utils;
 
 
     /**
@@ -54,6 +57,10 @@ public class BoardInfoService {
         BoardData boardData = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
         addBoardData(boardData);
+
+        // 상세보기 할때만 댓글이 필요하기 때문에 넣음
+        List<CommentData> comments = commentInfoService.getList(seq);
+        boardData.setComments(comments);
 
         return boardData;
     }

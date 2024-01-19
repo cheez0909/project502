@@ -45,6 +45,8 @@
             <a th:href="@{/board/list/{bid}(bid=${board.bid})}" th:text="#{글목록}" class="btn"></a>
         </div>
         <!--// btns -->
+
+        <th:blcok th:replace="~{front/board/skins/default/_comment::comment}"></th:blcok>
     </div>
     <!-- // board_view -->
 </th:block>
