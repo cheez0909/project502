@@ -37,6 +37,10 @@ spring:
       maxFileSize: 20MB
       maxRequestSize: 60MB
 
+  jackson:
+    serialization:
+      failOnEmptyBeans: false
+
 # 로거 설정
 logging:
   level:
