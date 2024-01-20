@@ -9,7 +9,6 @@ public class BoardDataSearch {
 //    private int limit = 20; 설정이 있기 때문에 설정에 따름 -> 1페이지 게시글 수
     private int limit; // 0:설정에 있는 1페이지 게시글 갯수, 1이상이면 지정한 갯수
     /**
-     *
      * 검색 옵션
      *
      * subject : 제목
@@ -17,7 +16,6 @@ public class BoardDataSearch {
      * subject_content : 제목_내용(OR)
      * poster : 작성자명 + 아이디 + 회원이름(OR)
      * ALL : 전체
-     *
      */
     private String sopt; // 검색 옵션
     private String skey; // 검색 조건

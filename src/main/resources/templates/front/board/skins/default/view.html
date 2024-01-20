@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.tymeleaf.org/extras/spring-security">
 <th:block th:fragment="default" th:object="${boardData}">
     <div class = "board_view layout_width">
         <h1 th:replace = "~{front/board/skins/default/_board_title::title}"></h1>
@@ -36,6 +37,15 @@
                 <a th:href="@{/file/download/{seq}(seq=*{seq}}" th:text="*{fileName}"></a>
             </li>
         </ul>
+
+        <!--찜하기 : 로그인 상태에서만 버튼 노출-->
+        <div class="share_btns">
+            <button class="save_post" th:data-seq="*{seq}" sec:authorize="isAuthenticated()"
+                    th:classappend="*{@saveBoardDataService.saved(seq)} ? 'on'">
+                <i class="xi-star"></i>
+            </button>
+        </div>
+
         <div class="board_btns">
             <a th:href="@{/board/write/{bid}(bid=${board.bid})}" th:text="#{글쓰기}"
             class="btn"></a>

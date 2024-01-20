@@ -4,6 +4,7 @@
 .circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
 .dn { display: none !important; }
+.hide { visibility:none !important; height:0 !important; padding:0 !important; margin:0 !important; overflow:hidden !important; min-height: 0 !important;}
 
 .image1_tpl_box { border: 1px solid #222; position: relative; width: 250px; }
 .image1_tpl_box > .inner { width: 100%; height: 250px; }
@@ -17,3 +18,6 @@
 .flex { display: flex; }
 .flex.sb { justify-content:space-between; }
 .flex.aic{ align-items: center;}
+
+
+
