@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<form id="frmComment" name="frmComment" method="post" th:action="@{/comment/save}" th:object="${requestComment}" target="ifrmProcess" autocomplete="off">
+<form th:if="${boardData.commentable}" th:fragment="form" id="frmComment" name="frmComment" method="post" th:action="@{/comment/save}" th:object="${requestComment}" target="ifrmProcess" autocomplete="off">
     <!--히든 값으로 모드와 게시글 번호를 숨겨 놓음-->
     <input type="hidden" name="mode" th:field="*{mode}">
     <input th:if="${boardData != null}" type="hidden" name="boardDataSeq" th:value="${boardData.seq}">

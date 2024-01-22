@@ -1,5 +1,6 @@
 package org.choongang.board.controllers.comment;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.board.entites.CommentData;
 import org.choongang.board.service.BoardAuthService;
@@ -45,9 +46,15 @@ public class ApiCommentController implements ExceptionRestProcessor {
     }
 
     @GetMapping("/auth_check")
-    public JSONData<Object> authCheck(@RequestParam("seq") Long seq, @RequestParam("guestPw") String guestPw){
+    public JSONData<Object> authCheck(@RequestParam("seq") Long seq){
+        System.out.println("==========================");
         boardAuthService.check("comment_update", seq);
-        CommentData data = commentInfoService.get(seq);
-        return new JSONData<>(data);
+        return new JSONData<>();
+    }
+
+    @GetMapping("/auth_validate")
+    public JSONData<Object> authValidate(@RequestParam("password") String password){
+        boardAuthService.validate(password);
+        return new JSONData<>();
     }
 }

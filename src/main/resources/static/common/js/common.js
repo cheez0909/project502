@@ -19,20 +19,25 @@ commonLib.ajaxLoad = function(method, url, params, responseType){
         xhr.open(method, url);
         xhr.setRequestHeader(tokenHeader, token);
 
+
         xhr.send(params); // 요청 바디에 실릴 데이터를 넣어줌 형식은 쿼리스트링(키=값)도 가능, formdata 객체(post, patch, put) 형태도 가능
+
 
         responseType = responseType?responseType.toLowerCase():undefined;
                 if (responseType == 'json') {
                     xhr.responseType=responseType;
                 }
 
-
         xhr.onreadystatechange = function(){
-            if(xhr.status == 200 && xhr.readyState == XMLHttpRequest.DONE){
-                // 제이슨이면 자바스크립트로 바꾸고,, 아닐때는 문자열 형태로
-                // 바꾸는 과정
-                const resData = ( responseType && responseType.toLowerCase() ==='json' ) ? xhr.response : xhr.responseText;
-                resolve(resData); // 성공시 데이터
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                    // 제이슨이면 자바스크립트로 바꾸고,, 아닐때는 문자열 형태로
+                    // 바꾸는 과정
+                    const resData = ( responseType && responseType.toLowerCase() ==='json' ) ? xhr.response : xhr.responseText;
+                if(xhr.status == 200 ){
+                    resolve(resData); // 성공시 데이터
+                } else {
+                    reject(resData);
+                }
             }
         };
 

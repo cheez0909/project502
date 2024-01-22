@@ -161,6 +161,25 @@ public class BoardController implements ExceptionProcessor {
         return utils.tpl("board/update");
     }
 
+    @GetMapping("/reply/{seq}")
+    public String reply(@PathVariable("seq") Long parentSeq, @ModelAttribute RequestBoard form, Model model){
+        commonProcess(parentSeq, "reply", model);
+        String content = boardData.getContent();
+        content = String.format("<br><br><br><br><br>============================================<br>%s", content);
+
+        form.setBid(board.getBid());
+        form.setContent(content);
+        form.setParentSeq(parentSeq);
+
+        if(memberUtil.isLogin()) {
+            form.setPoster(memberUtil.getMember().getName());
+
+        }
+
+
+        return utils.tpl("board/write");
+    }
+
     /**
      * 게시글 등록, 수정 -> 완료 되면 VIEW로 갈 지 리스트로 갈 지 결정
      *
@@ -237,7 +256,7 @@ public class BoardController implements ExceptionProcessor {
 
         String pageTitle = board.getBName(); // 게시판명이 기본 타이틀
 
-        if (mode.equals("write") || mode.equals("update")) { // 쓰기 또는 수정
+        if (mode.equals("write") || mode.equals("update") || mode.equals("reply")) { // 쓰기 또는 수정
             if (board.isUseEditor()) { // 에디터 사용하는 경우
                 addCommonScript.add("ckeditor5/ckeditor");
             }

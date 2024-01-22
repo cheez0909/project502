@@ -19,6 +19,7 @@ import org.choongang.board.service.comment.CommentInfoService;
 import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.file.entites.FileInfo;
 import org.choongang.file.service.FileInfoService;
+import org.choongang.member.Authority;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.entities.Member;
 import org.modelmapper.ModelMapper;
@@ -143,6 +144,28 @@ public class BoardInfoService {
         boardData.setShowDeleteButton(showDeleteButton);
 
         /* 수정, 삭제 권한 정보 처리 E */
+
+
+        /* 댓글 작성 권한 처리 S */
+        boolean commentable = false;
+        Board board = boardData.getBoard();
+        Authority commentAccessType = board.getCommentAccessType();
+        // 관리자 이거나 전체 작성 가능일 경우 true
+        if( commentAccessType == Authority.ALL){
+            commentable = true;
+        }
+
+        if(memberUtil.isLogin()){
+            if(commentAccessType == Authority.USER) {
+                commentable = true;
+            }
+            if(commentAccessType == Authority.ADMIN && memberUtil.isAdmin()) {
+                commentable = true;
+            }
+        }
+
+        boardData.setCommentable(commentable);
+        /* 댓글 작성 권한 처리 E */
     }
 
     /**
@@ -217,6 +240,7 @@ public class BoardInfoService {
                 .where(andBuilder)
                 .orderBy(
                         new OrderSpecifier(Order.DESC, pathBuilder.get("notice")) // 공지사항 먼저
+                        ,new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder"))
                         ,new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")) // 작성일
                         )
                 .fetch();

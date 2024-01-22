@@ -1,6 +1,7 @@
 package org.choongang.member.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.choongang.member.Authority;
@@ -15,6 +16,7 @@ public class Authorities {
     private Long seq;
 
     // 회원은 1명 권한은 여러개...
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_seq")
     private Member member;

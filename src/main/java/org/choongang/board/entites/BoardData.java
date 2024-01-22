@@ -1,5 +1,6 @@
 package org.choongang.board.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(indexes = {
-        @Index(name = "idx_boardData_basic", columnList = "notice DESC, createdAt DESC")
+        @Index(name = "idx_boardData_basic", columnList = "notice DESC, listOrder DESC, createdAt DESC")
 })
 public class BoardData extends Base implements AuthCheck{
 
@@ -55,6 +56,12 @@ public class BoardData extends Base implements AuthCheck{
 
     private int viewCount; // 조회 수
     private int commentCount; // 댓글 수 -> getTotal
+    private boolean editorView; // true인 경우 -> 에디터를 통해서 작성
+
+
+    private Long parentSeq; // 부모 게시글 번호 - 답글인 경우
+    private Long listOrder; // 1차 정렬 순서 - 내림 순서
+
 
     @Column(length = 20)
     private String ip; // IP주소
@@ -98,6 +105,9 @@ public class BoardData extends Base implements AuthCheck{
     private boolean deletable; // 삭제 가능 여부
 
     @Transient
+    private boolean commentable; // 댓글 작성 가능 여부
+
+    @Transient
     private boolean mine; // 게시글 소유자
 
     @Transient
@@ -107,5 +117,6 @@ public class BoardData extends Base implements AuthCheck{
     private boolean showDeleteButton; // 삭제 버튼 노출 여부 : 노출에 대한 부분이지 버튼 자체가 아님
 
     @Transient
+    @JsonIgnore
     private List<CommentData> comments; // 댓글 목록
 }

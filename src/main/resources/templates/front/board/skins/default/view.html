@@ -30,7 +30,8 @@ xmlns:sec="http://www.tymeleaf.org/extras/spring-security">
                 </span>
             </div>
         </div>
-        <div class="content" th:utext="*{content}"></div>
+        <div th:if="*{editorView}" class="content" th:utext="*{content}"></div>
+        <div th:if="*{!editorView}" class="content" th:utext="*{@utils.nl2br(content)}"></div>
         <ul th:if="*{attachFiles !=null && !attachFiles.isEmpty()}" class="downloads">
             <li th:each="file : *{attachFiles}" th:object="${file}">
                 <i class="xi-download"></i>

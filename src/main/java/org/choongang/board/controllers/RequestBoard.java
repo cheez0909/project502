@@ -19,10 +19,13 @@ public class RequestBoard {
     private String poster; // 글 작성자
     private String guestPw; // 비회원 비밀번호 비회원일때만 보여야됨
     private boolean notice; // 공지사항 여부 (관리자일때 체크)
+    
     @NotBlank
     private String subject; // 글 제목
     @NotBlank
     private String content; // 글 내용
+    
+    private Long parentSeq; // 부모 게시글 번호 - 답글
 
     private Long num1; // 추가 필드 - 정수
     private Long num2; // 추가 필드 - 정수
