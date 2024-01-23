@@ -176,7 +176,8 @@ public class BoardInfoService {
      */
     public ListData<BoardData> getList(String bid, BoardDataSearch search){
 
-        Board board = configInfoService.get(bid);
+        Board board = StringUtils.hasText(bid) ? configInfoService.get(bid) : new Board();
+
         int page = Utils.onlyPositiveNumber(search.getPage(), 1);
         int limit = Utils.onlyPositiveNumber(search.getLimit(), board.getRowsPerPage()); // 0일때 기본설정값, 0이 아니면 설정된 값
         int offset = (page -1) * limit; // 레코드 시작 위치
@@ -184,7 +185,9 @@ public class BoardInfoService {
         QBoardData boardData = QBoardData.boardData;
         BooleanBuilder andBuilder = new BooleanBuilder();
 
-        andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
+        if(StringUtils.hasText(bid)) {
+            andBuilder.and(boardData.board.bid.eq(bid)); // 게시판 ID
+        }
 
         /* 검색 조건 처리 S */
         String sopt = search.getSopt();
@@ -240,7 +243,8 @@ public class BoardInfoService {
                 .where(andBuilder)
                 .orderBy(
                         new OrderSpecifier(Order.DESC, pathBuilder.get("notice")) // 공지사항 먼저
-                        ,new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder"))
+                        ,new OrderSpecifier(Order.DESC, pathBuilder.get("listOrder")) // 게시글 순서
+                        ,new OrderSpecifier(Order.ASC, pathBuilder.get(("listOrder2"))) // 답글 순서
                         ,new OrderSpecifier(Order.DESC, pathBuilder.get("createdAt")) // 작성일
                         )
                 .fetch();
@@ -253,6 +257,11 @@ public class BoardInfoService {
         Pagination pagination = new Pagination(page, (int) total, ranges, limit, request);
 
         return new ListData<>(items, pagination);
+    }
+
+
+    public ListData<BoardData> getList(BoardDataSearch search){
+        return getList(null, search);
     }
 
     /**

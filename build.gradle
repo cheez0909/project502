@@ -81,6 +81,10 @@ dependencies {
     // 이메일 전송
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    // 웹소켓 채팅
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+
 
 }
 

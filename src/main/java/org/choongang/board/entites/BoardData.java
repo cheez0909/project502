@@ -19,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(indexes = {
-        @Index(name = "idx_boardData_basic", columnList = "notice DESC, listOrder DESC, createdAt DESC")
+        @Index(name = "idx_boardData_basic", columnList = "notice DESC, listOrder DESC, listOrder2 ASC, createdAt DESC")
 })
 public class BoardData extends Base implements AuthCheck{
 
@@ -61,6 +61,9 @@ public class BoardData extends Base implements AuthCheck{
 
     private Long parentSeq; // 부모 게시글 번호 - 답글인 경우
     private Long listOrder; // 1차 정렬 순서 - 내림 순서
+    @Column(length = 60)
+    private String listOrder2 = "R"; // 답글 2차 정렬 순서 - 오름차순 : 기본값은 R 오라클은 비어있는 값을 null로 인식해서 정렬이 안됨
+
 
 
     @Column(length = 20)
@@ -94,6 +97,7 @@ public class BoardData extends Base implements AuthCheck{
 
     @Transient
     private List<FileInfo> attachFiles;
+
 //    @ManyToOne
 //    @JoinColumn(name = "boardData_id")
 //    private Member member;
@@ -109,6 +113,8 @@ public class BoardData extends Base implements AuthCheck{
 
     @Transient
     private boolean mine; // 게시글 소유자
+
+    private int depth; // 답글 들여쓰기 정도
 
     @Transient
     private boolean showEditButton; // 수정 버튼 노출 여부 : 노출에 대한 부분이지 버튼 자체가 아님

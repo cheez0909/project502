@@ -1,6 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Diphylleia&family=East+Sea+Dokdo&family=Song+Myung&family=Stylish&display=swap');
-* { font-family: 'Stylish', sans-serif; color: #000; box-sizing: border-box; outline: none; }
-html { font-size: 13px; }
+/* @import url('https://fonts.googleapis.com/css2?family=Black+And+White+Picture&family=Diphylleia&family=East+Sea+Dokdo&family=Song+Myung&family=Stylish&display=swap');
+*/
+@font-face {
+    font-family: 'SejonghospitalBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SejonghospitalBold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+* { font-family: 'SejonghospitalBold', sans-serif; color: #000; box-sizing: border-box; outline: none; }
+html { font-size: 16px; }
 body { margin: 0; }
 a { text-decoration: none; }
 ul, ol { list-style: none; margin: 0; padding: 0; }

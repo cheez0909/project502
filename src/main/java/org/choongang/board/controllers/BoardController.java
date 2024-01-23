@@ -14,6 +14,8 @@ import org.choongang.board.service.config.BoardConfigInfoService;
 import org.choongang.commons.ExceptionProcessor;
 import org.choongang.commons.ListData;
 import org.choongang.commons.Utils;
+import org.choongang.commons.exceptions.AlertBackException;
+import org.choongang.commons.exceptions.UnAuthorizedException;
 import org.choongang.file.entites.FileInfo;
 import org.choongang.file.service.FileInfoService;
 import org.choongang.member.MemberUtil;
@@ -164,6 +166,9 @@ public class BoardController implements ExceptionProcessor {
     @GetMapping("/reply/{seq}")
     public String reply(@PathVariable("seq") Long parentSeq, @ModelAttribute RequestBoard form, Model model){
         commonProcess(parentSeq, "reply", model);
+        if(!board.isUseReply()){
+            throw new UnAuthorizedException();
+        }
         String content = boardData.getContent();
         content = String.format("<br><br><br><br><br>============================================<br>%s", content);
 
