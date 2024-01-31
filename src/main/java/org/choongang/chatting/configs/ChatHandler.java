@@ -31,7 +31,6 @@ public class ChatHandler extends TextWebSocketHandler {
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
         for(WebSocketSession s : sessions){
             s.sendMessage(message);
         }

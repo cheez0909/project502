@@ -1,0 +1,17 @@
+package org.choongang.mypage.controllers;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import org.choongang.file.entites.FileInfo;
+
+@Data
+public class RequestProfile {
+
+    @NotBlank
+    private String name;
+
+    private String password;
+    private String confirmPassword;
+
+    private FileInfo profileImage;
+}

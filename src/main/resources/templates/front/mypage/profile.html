@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/mypage}">
+<section layout:fragment="content">
+    <h1 th:text="#{회원정보_수정}"></h1>
+
+    <form name="frmSave" method="post" th:action="@{/mypage/profile}" autocomplete="off"
+          th:object="${requestProfile}">
+        <dl>
+            <dt th:text="#{아이디}"></dt>
+            <dd th:text="${session.member.userId}"></dd>
+        </dl>
+        <dl>
+            <dt th:text="#{회원명}"></dt>
+            <dd>
+                <input type="text" name="name" th:field="*{name}">
+                <div class="error" th:each="err : ${#fields.error('name')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{비밀번호}"></dt>
+            <dd>
+                <input type="password" name="password" th:field="*{password}">
+                <div class="error" th:each="err : ${#fields.error('password')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+        <dl>
+            <dt th:text="#{비밀번호_확인}"></dt>
+            <dd>
+                <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
+                <div class="error" th:each="err : ${#fields.error('confirmPassword')}" th:text="${err}"></div>
+            </dd>
+        </dl>
+
+    </form>
+</section>
+</html>

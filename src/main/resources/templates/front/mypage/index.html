@@ -4,5 +4,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{front/layouts/mypage}">
 <section layout:fragment="content">
     <h1 th:text="#{마이페이지}"></h1>
+    <div class="view_posts">
+
+    </div>
+    <script th:replace="~{front/common/_posts_tpl::tpl}"></script>
 </section>
 </html>

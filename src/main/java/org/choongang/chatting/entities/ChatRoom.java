@@ -27,5 +27,4 @@ public class ChatRoom extends Base {
     private Member member;
 
     private int capacity = 2; // 기본값은 2명
-
 }

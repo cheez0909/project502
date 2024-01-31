@@ -24,10 +24,13 @@ public class MypageController implements ExceptionProcessor {
 
     private final Utils utils;
     private final SaveBoardDataService saveBoardDataService;
+
+
     @GetMapping // 마이페이지 메인
     public String index(Model model){
         commonProcess("main", model);
         return utils.tpl("mypage/index");
+        
     }
 
     /**
@@ -62,6 +65,8 @@ public class MypageController implements ExceptionProcessor {
             pageTitle = Utils.getMessage("찜_게시글", "commons");
             addScript.add("board/common");
             addScript.add("mypage/save_post");
+        } else if(mode.equals("main")){ // 마이페이지 메인
+            addScript.add("board/view_posts");
         }
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);

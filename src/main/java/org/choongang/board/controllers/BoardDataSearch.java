@@ -25,4 +25,5 @@ public class BoardDataSearch {
     private String userId; // 특정 아이디를 고정해서 검색 -> 마이페이지 작성할 때
     private String category; // 게시판 분류
 
+    private List<Long> seq; // 게시글 번호
 }
